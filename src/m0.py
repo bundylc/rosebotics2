@@ -31,11 +31,9 @@ def run_test_drive_system():
     robot.drive_system.start_moving(20, 50)
     time.sleep(2)
     robot.drive_system.stop_moving()
-
     print("Left/right wheel positions:",
           robot.drive_system.left_wheel.get_degrees_spun(),
           robot.drive_system.right_wheel.get_degrees_spun())
-
     time.sleep(1)
     print()
     print("Spin clockwise at half speed for 2.5 seconds")
@@ -60,6 +58,7 @@ def run_test_drive_system():
           robot.drive_system.right_wheel.get_degrees_spun())
 
 
+
 def run_test_touch_sensor():
     """ Tests the  touch_sensor  of the Snatch3rRobot. """
     robot = rb.Snatch3rRobot()
@@ -75,6 +74,7 @@ def run_test_touch_sensor():
               "Touch sensor value is: ", robot.touch_sensor.get_value())
         time.sleep(0.5)
         count = count + 1
+
 
 
 def run_test_color_sensor():
@@ -97,6 +97,7 @@ def run_test_color_sensor():
               "{:4}".format(robot.color_sensor.get_reflected_intensity()))
         time.sleep(0.5)
         count = count + 1
+
 
 
 main()
