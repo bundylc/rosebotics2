@@ -187,7 +187,6 @@ class TouchSensor(low_level_rb.TouchSensor):
         """ Waits (doing nothing new) until the touch sensor is released. """
         # TODO
 
-
 class Camera(object):
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
 
