@@ -13,7 +13,7 @@ def main():
     #run_test_polygon(10)
     run_test_ellipse()
     #run_and_stop(2)
-    
+
 
 def run_test_drive_system():
     robot = rb.Snatch3rRobot()
