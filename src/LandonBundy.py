@@ -9,6 +9,8 @@ import time
 
 def main():
     """ Runs YOUR specific part of the project """
-
+    robot = rb.Snatch3rRobot()
+    robot.touch_sensor.wait_until_released()
+    print('yes')
 
 main()
