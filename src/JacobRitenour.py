@@ -13,6 +13,8 @@ def main():
     robot = rb.Snatch3rRobot()
     while(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<15):
         ev3.Sound.beep().wait()
+        if(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()>=15):
+            break
     print(1)
 
 main()
