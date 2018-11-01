@@ -3,14 +3,16 @@
   Fall term, 2018-2019.
 """
 
-import rosebotics as rb
+import rosebotics_new as rb
+import ev3dev.ev3 as ev3
 import time
 
 
 def main():
     """ Runs YOUR specific part of the project """
     robot = rb.Snatch3rRobot()
-    robot.color_sensor.wait_until_intensity_is_greater_than(10)
+    while(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<15):
+        ev3.Sound.beep().wait()
     print(1)
 
 main()
