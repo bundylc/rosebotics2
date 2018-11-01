@@ -205,22 +205,33 @@ class DriveSystem(object):
                            inches,
                            duty_cycle_percent=100,
                            stop_action=StopAction.BRAKE):
+        self.start_moving(duty_cycle_percent, duty_cycle_percent)
+        while True:
+            if self.left_wheel.get_degrees_spun() >= 87.96 * inches:
+                self.stop_moving()
+                break
+
         """
         Makes the robot GO STRAIGHT for the given number of INCHES
         at the given speed (-100 to 100, where negative means moving backward),
         stopping using the given StopAction (which defaults to BRAKE).
         """
-        # TODO: Use one of the Wheel object's   get_degrees_spun   method.
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-DEGREES-spun to robot-INCHES-moved.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-        # TODO: Don't forget that the Wheel object's position begins wherever
-        # TODO:   it last was, not necessarily 0.
+        # TODzO: Use one of the Wheel object's   get_degrees_spun   method.
+        # TODOz: Do a few experiments to determine the constant that converts
+        # TODzO:   from wheel-DEGREES-spun to robot-INCHES-moved.
+        # TODOz:   Assume that the conversion is linear with respect to speed.
+        # TOzDO: Don't forget that the Wheel object's position begins wherever
+        # TODzO:   it last was, not necessarily 0.
 
     def spin_in_place_degrees(self,
                               degrees,
                               duty_cycle_percent=100,
                               stop_action=StopAction.BRAKE):
+        self.start_moving(duty_cycle_percent, -duty_cycle_percent)
+        while True:
+            if self.left_wheel.get_degrees_spun() >= 5.29 * degrees:
+                self.stop_moving()
+                break
         """
         Makes the robot SPIN IN PLACE for the given number of DEGREES
         at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
@@ -240,6 +251,18 @@ class DriveSystem(object):
                      degrees,
                      duty_cycle_percent=100,
                      stop_action=StopAction.BRAKE):
+        if degrees > 0:
+            self.start_moving(0, duty_cycle_percent)
+            while True:
+                if self.right_wheel.get_degrees_spun() >= degrees * 10.5:
+                    self.stop_moving()
+                    break
+        if degrees < 0:
+            self.start_moving(0, -duty_cycle_percent)
+            while True:
+                if self.right_wheel.get_degrees_spun() <= degrees * 10.5:
+                    self.stop_moving()
+                    break
         """
         Makes the robot TURN for the given number of DEGREES
         at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
@@ -271,12 +294,20 @@ class TouchSensor(low_level_rb.TouchSensor):
         return self.get_value() == 1
 
     def wait_until_pressed(self):
+        while True:
+            print('running')
+            if self.get_value() == 1:
+                break
         """ Waits (doing nothing new) until the touch sensor is pressed. """
-        # TODO.
+        # TODsO.
 
     def wait_until_released(self):
+        while True:
+            print('running')
+            if self.get_value() == 0:
+                break
         """ Waits (doing nothing new) until the touch sensor is released. """
-        # TODO
+        # TODOs
 
 
 class ColorSensor(low_level_rb.ColorSensor):
@@ -288,7 +319,6 @@ class ColorSensor(low_level_rb.ColorSensor):
 
     def __init__(self, port=ev3.INPUT_3):
         super().__init__(port)
-
 
     def get_color(self):
         """
@@ -327,6 +357,9 @@ class ColorSensor(low_level_rb.ColorSensor):
         return super().blue()
 
     def wait_until_intensity_is_less_than(self, reflected_light_intensity):
+        while True:
+            if self.get_reflected_intensity() < reflected_light_intensity:
+                break
         """
         Waits (doing nothing new) until the sensor's measurement of reflected
         light intensity is less than the given value (threshold), which should
@@ -335,6 +368,9 @@ class ColorSensor(low_level_rb.ColorSensor):
         # TODO.
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
+        while True:
+            if self.get_reflected_intensity() > reflected_light_intensity:
+                break
         """
         Waits (doing nothing new) until the sensor's measurement of reflected
         light intensity is greater than the given value (threshold), which
@@ -343,6 +379,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         # TODO.
 
     def wait_until_color_is(self, color):
+        while True:
+            if self.get_color() == color:
+                break
+
         """
         Waits (doing nothing new) until the sensor's measurement
         of what color it sees is the given color.
@@ -351,6 +391,16 @@ class ColorSensor(low_level_rb.ColorSensor):
         # TODO.
 
     def wait_until_color_is_one_of(self, colors):
+        count = 0
+        while True:
+            print('running')
+            for k in range(len(colors)):
+                color = colors[k]
+                if self.get_color() == color:
+                    count = count + 1
+                    print('correct')
+            if count >= 1:
+                break
         """
         Waits (doing nothing new) until the sensor's measurement
         of what color it sees is any one of the given sequence of colors.
