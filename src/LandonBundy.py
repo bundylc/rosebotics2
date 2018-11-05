@@ -3,7 +3,7 @@
   Fall term, 2018-2019.
 """
 
-import rosebotics as rb
+import rosebotics_new as rb
 import time
 
 
@@ -13,4 +13,5 @@ def main():
     robot.touch_sensor.wait_until_released()
     print('yes')
 
-main()
+robot = rb.Snatch3rRobot()
+robot.raise_arm_and_close_claw()
