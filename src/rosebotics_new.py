@@ -630,14 +630,14 @@ class InfraredAsBeaconButtonSensor(object):
     def get_channel(self):
         return self.channel
 
-    # def get_buttons_pressed(self):
+    def get_buttons_pressed(self):
     #     """
     #     Returns a list of the numbers corresponding to buttons on the Beacon
     #     which are currently pressed.
     #     """
-    #     button_list = self._underlying_ir_sensor.buttons_pressed
-    #     for k in range(len(button_list)):
-    #         button_list[k] = self.button_names[button_list[k]]
+         button_list = self._underlying_ir_sensor.buttons_pressed
+         for k in range(len(button_list)):
+             button_list[k] = self.button_names[button_list[k]]
 
     def is_top_red_button_pressed(self):
         return self._underlying_ir_sensor.red_up
