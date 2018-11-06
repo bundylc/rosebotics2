@@ -3,16 +3,26 @@
   Fall term, 2018-2019.
 """
 
-import rosebotics as rb
+import rosebotics_new as rb
 import time
+import ev3dev.ev3 as ev3
 
 
 def main():
     """ Runs YOUR specific part of the project """
     #run_test_drive_system()
     #run_test_polygon(10)
-    run_test_ellipse()
+    #run_test_ellipse()
     #run_and_stop(2)
+    #camera_sense()
+    #test_touch_sensor()
+    #test_infrared()
+    test_arm()
+
+def test_touch_sensor():
+    robot = rb.Snatch3rRobot()
+    robot.touch_sensor.wait_until_pressed()
+    print('yes')
 
 
 def run_test_drive_system():
@@ -55,5 +65,32 @@ def run_and_stop(color):
         if robot.color_sensor.get_color() == color:
             break
     robot.drive_system.stop_moving()
+
+
+def camera_sense():
+    robot = rb.Snatch3rRobot()
+
+    while True:
+        print(robot.camera.get_biggest_blob().get_area())
+        if robot.camera.get_biggest_blob().get_area() > 600:
+            print("Beeping:")
+            ev3.Sound.beep().wait()
+        else:
+            pass
+
+
+def test_infrared():
+    robot = rb.Snatch3rRobot()
+    while True:
+        print(robot.proximity_sensor.get_distance_to_nearest_object_in_inches())
+        if robot.proximity_sensor.get_distance_to_nearest_object_in_inches() <= 10:
+            ev3.Sound.beep().wait()
+
+
+def test_arm():
+    robot = rb.Snatch3rRobot()
+    #robot.arm.calibrate()
+    robot.arm.move_arm_to_position(4)
+
 
 main()
