@@ -17,8 +17,9 @@ def main():
     #camera_sense()
     #test_touch_sensor()
     #test_infrared()
-    test_arm()
-
+    #test_arm()
+    #follow_object()
+    right_camera()
 def test_touch_sensor():
     robot = rb.Snatch3rRobot()
     robot.touch_sensor.wait_until_pressed()
@@ -90,7 +91,24 @@ def test_infrared():
 def test_arm():
     robot = rb.Snatch3rRobot()
     #robot.arm.calibrate()
-    robot.arm.move_arm_to_position(4)
+    #robot.arm.move_arm_to_position(4)
+
+def follow_object():
+    robot = rb.Snatch3rRobot()
+    while True:
+        print(robot.camera.get_biggest_blob().get_area())
+        if robot.camera.get_biggest_blob().get_area() > 600:
+            print(robot.camera.get_biggest_blob().is_against_left_edge())
+            if robot.camera.get_biggest_blob().is_against_left_edge():
+                robot.drive_system.turn_degrees(10, 100)
+                robot.drive_system.right_wheel.reset_degrees_spun()
+
+def right_camera():
+    robot = rb.Snatch3rRobot()
+    while True:
+        if robot.camera.get_biggest_blob().get_area() > 600:
+            if robot.camera.get_biggest_blob().is_against_right_edge():
+                print(robot.camera.get_biggest_blob().is_against_right_edge())
 
 
 main()
