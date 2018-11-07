@@ -147,152 +147,151 @@ class DriveSystem(object):
     """
     A class for driving (moving) the robot.
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
-<<<<<<< Updated upstream
+
        their colleagues, the entire team, and Hao Jiang.
     """
 
 
-"""
+    """
     # DONE: In the above line, put the name of the primary author of this class.
-=======
+    =======
        their colleagues, the entire team, and Ji.
 
     # TOdDO: In the above line, put the name of the primary author of this class.
->>>>>>> Stashed changes"""
-
-
-def __init__(self,
-             left_wheel_port=ev3.OUTPUT_B,
-             right_wheel_port=ev3.OUTPUT_C):
     """
-    A DriveSystem has   self.left_wheel   and   self.right_wheel.
-    """
-    self.left_wheel = low_level_rb.Wheel(left_wheel_port)
-    self.right_wheel = low_level_rb.Wheel(right_wheel_port)
+
+    def __init__(self,
+                 left_wheel_port=ev3.OUTPUT_B,
+                 right_wheel_port=ev3.OUTPUT_C):
+        """
+        A DriveSystem has   self.left_wheel   and   self.right_wheel.
+        """
+        self.left_wheel = low_level_rb.Wheel(left_wheel_port)
+        self.right_wheel = low_level_rb.Wheel(right_wheel_port)
 
 
-def start_moving(self,
-                 left_wheel_duty_cycle_percent=100,
-                 right_wheel_duty_cycle_percent=100):
-    """
-    STARTS the robot MOVING at the given wheel speeds
-    (-100 to 100, where negative means spinning backward).
-    """
-    self.left_wheel.start_spinning(left_wheel_duty_cycle_percent)
-    self.right_wheel.start_spinning(right_wheel_duty_cycle_percent)
-
-
-def stop_moving(self, stop_action=StopAction.BRAKE.value):
-    """
-    STOPS the robot, using the given StopAction (which defaults to BRAKE).
-    """
-    self.left_wheel.stop_spinning(stop_action)
-    self.right_wheel.stop_spinning(stop_action)
-
-
-def move_for_seconds(self,
-                     seconds,
+    def start_moving(self,
                      left_wheel_duty_cycle_percent=100,
-                     right_wheel_duty_cycle_percent=100,
+                     right_wheel_duty_cycle_percent=100):
+        """
+        STARTS the robot MOVING at the given wheel speeds
+        (-100 to 100, where negative means spinning backward).
+        """
+        self.left_wheel.start_spinning(left_wheel_duty_cycle_percent)
+        self.right_wheel.start_spinning(right_wheel_duty_cycle_percent)
+
+
+    def stop_moving(self, stop_action=StopAction.BRAKE.value):
+        """
+        STOPS the robot, using the given StopAction (which defaults to BRAKE).
+        """
+        self.left_wheel.stop_spinning(stop_action)
+        self.right_wheel.stop_spinning(stop_action)
+
+
+    def move_for_seconds(self,
+                         seconds,
+                         left_wheel_duty_cycle_percent=100,
+                         right_wheel_duty_cycle_percent=100,
+                         stop_action=StopAction.BRAKE):
+        """
+        Makes the robot MOVE for the given number of SECONDS at the given
+        wheel speeds (-100 to 100, where negative means spinning backward),
+        stopping using the given StopAction (which defaults to BRAKE).
+        """
+        self.start_moving(left_wheel_duty_cycle_percent,
+                          right_wheel_duty_cycle_percent)
+        # For pedagogical purposes, we use a WHILE loop to keep going for a
+        # given number of seconds, instead of using the simpler alternative:
+        #      time.sleep(seconds)
+        self.start_moving(left_wheel_duty_cycle_percent,
+                          right_wheel_duty_cycle_percent)
+        start_time = time.time()
+        while True:
+            if time.time() - start_time > seconds:
+                self.stop_moving(stop_action.value)
+                break
+
+
+    def go_straight_inches(self,
+                           inches,
+                           duty_cycle_percent=100,
+                           stop_action=StopAction.BRAKE):
+        self.start_moving(duty_cycle_percent, duty_cycle_percent)
+        while True:
+            if self.left_wheel.get_degrees_spun() >= 87.96 * inches:
+                self.stop_moving()
+                break
+
+        """
+        Makes the robot GO STRAIGHT for the given number of INCHES
+        at the given speed (-100 to 100, where negative means moving backward),
+        stopping using the given StopAction (which defaults to BRAKE).
+        """
+        # TODzO: Use one of the Wheel object's   get_degrees_spun   method.
+        # TODOz: Do a few experiments to determine the constant that converts
+        # TODzO:   from wheel-DEGREES-spun to robot-INCHES-moved.
+        # TODOz:   Assume that the conversion is linear with respect to speed.
+        # TOzDO: Don't forget that the Wheel object's position begins wherever
+        # TODzO:   it last was, not necessarily 0.
+
+
+    def spin_in_place_degrees(self,
+                              degrees,
+                              duty_cycle_percent=100,
+                              stop_action=StopAction.BRAKE):
+        self.start_moving(duty_cycle_percent, -duty_cycle_percent)
+        while True:
+            if self.left_wheel.get_degrees_spun() >= 5.29 * degrees:
+                self.stop_moving()
+                break
+        """
+        Makes the robot SPIN IN PLACE for the given number of DEGREES
+        at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
+        and NEGATIVE means COUNTER-CLOCKWISE),
+        stopping using the given StopAction (which defaults to BRAKE).
+        "Spinning in place" means that both wheels spin at the same speed
+        but in opposite directions.
+        """
+
+        # DONE: Use one of the Wheel object's   get_degrees_spun   method.
+        # DONE: Do a few experiments to determine the constant that converts
+        # DONE:   from WHEEL-degrees-spun to ROBOT-degrees-spun.
+        # DONE:   Assume that the conversion is linear with respect to speed.
+        # DONE: Don't forget that the Wheel object's position begins wherever
+        # DONE:   it last was, not necessarily 0.
+
+
+    def turn_degrees(self,
+                     degrees,
+                     duty_cycle_percent=100,
                      stop_action=StopAction.BRAKE):
-    """
-    Makes the robot MOVE for the given number of SECONDS at the given
-    wheel speeds (-100 to 100, where negative means spinning backward),
-    stopping using the given StopAction (which defaults to BRAKE).
-    """
-    self.start_moving(left_wheel_duty_cycle_percent,
-                      right_wheel_duty_cycle_percent)
-    # For pedagogical purposes, we use a WHILE loop to keep going for a
-    # given number of seconds, instead of using the simpler alternative:
-    #      time.sleep(seconds)
-    self.start_moving(left_wheel_duty_cycle_percent,
-                      right_wheel_duty_cycle_percent)
-    start_time = time.time()
-    while True:
-        if time.time() - start_time > seconds:
-            self.stop_moving(stop_action.value)
-            break
-
-
-def go_straight_inches(self,
-                       inches,
-                       duty_cycle_percent=100,
-                       stop_action=StopAction.BRAKE):
-    self.start_moving(duty_cycle_percent, duty_cycle_percent)
-    while True:
-        if self.left_wheel.get_degrees_spun() >= 87.96 * inches:
-            self.stop_moving()
-            break
-
-    """
-    Makes the robot GO STRAIGHT for the given number of INCHES
-    at the given speed (-100 to 100, where negative means moving backward),
-    stopping using the given StopAction (which defaults to BRAKE).
-    """
-    # TODzO: Use one of the Wheel object's   get_degrees_spun   method.
-    # TODOz: Do a few experiments to determine the constant that converts
-    # TODzO:   from wheel-DEGREES-spun to robot-INCHES-moved.
-    # TODOz:   Assume that the conversion is linear with respect to speed.
-    # TOzDO: Don't forget that the Wheel object's position begins wherever
-    # TODzO:   it last was, not necessarily 0.
-
-
-def spin_in_place_degrees(self,
-                          degrees,
-                          duty_cycle_percent=100,
-                          stop_action=StopAction.BRAKE):
-    self.start_moving(duty_cycle_percent, -duty_cycle_percent)
-    while True:
-        if self.left_wheel.get_degrees_spun() >= 5.29 * degrees:
-            self.stop_moving()
-            break
-    """
-    Makes the robot SPIN IN PLACE for the given number of DEGREES
-    at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
-    and NEGATIVE means COUNTER-CLOCKWISE),
-    stopping using the given StopAction (which defaults to BRAKE).
-    "Spinning in place" means that both wheels spin at the same speed
-    but in opposite directions.
-    """
-
-    # DONE: Use one of the Wheel object's   get_degrees_spun   method.
-    # DONE: Do a few experiments to determine the constant that converts
-    # DONE:   from WHEEL-degrees-spun to ROBOT-degrees-spun.
-    # DONE:   Assume that the conversion is linear with respect to speed.
-    # DONE: Don't forget that the Wheel object's position begins wherever
-    # DONE:   it last was, not necessarily 0.
-
-
-def turn_degrees(self,
-                 degrees,
-                 duty_cycle_percent=100,
-                 stop_action=StopAction.BRAKE):
-    if degrees > 0:
-        self.start_moving(0, duty_cycle_percent)
-        while True:
-            if self.right_wheel.get_degrees_spun() >= degrees * 10.5:
-                self.stop_moving()
-                break
-    if degrees < 0:
-        self.start_moving(0, -duty_cycle_percent)
-        while True:
-            if self.right_wheel.get_degrees_spun() <= degrees * 10.5:
-                self.stop_moving()
-                break
-    """
-    Makes the robot TURN for the given number of DEGREES
-    at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
-    and NEGATIVE means COUNTER-CLOCKWISE),
-    stopping using the given StopAction (which defaults to BRAKE).
-    "Turning" means that both ONE wheel spins at the given speed and the
-    other wheel does NOT spin.
-    """
-    # DONE: Use the Wheel object's   get_degrees_spun   method.
-    # DONE: Do a few experiments to determine the constant that converts
-    # DONE:   from WHEEL-degrees-SPUN to ROBOT-degrees-TURNED.
-    # DONE:   Assume that the conversion is linear with respect to speed.
-    # DONE: Don't forget that the Wheel object's position begins wherever
-    # DONE:   it last was, not necessarily 0.
+        if degrees > 0:
+            self.start_moving(0, duty_cycle_percent)
+            while True:
+                if self.right_wheel.get_degrees_spun() >= degrees * 10.5:
+                    self.stop_moving()
+                    break
+        if degrees < 0:
+            self.start_moving(0, -duty_cycle_percent)
+            while True:
+                if self.right_wheel.get_degrees_spun() <= degrees * 10.5:
+                    self.stop_moving()
+                    break
+        """
+        Makes the robot TURN for the given number of DEGREES
+        at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
+        and NEGATIVE means COUNTER-CLOCKWISE),
+        stopping using the given StopAction (which defaults to BRAKE).
+        "Turning" means that both ONE wheel spins at the given speed and the
+        other wheel does NOT spin.
+        """
+        # DONE: Use the Wheel object's   get_degrees_spun   method.
+        # DONE: Do a few experiments to determine the constant that converts
+        # DONE:   from WHEEL-degrees-SPUN to ROBOT-degrees-TURNED.
+        # DONE:   Assume that the conversion is linear with respect to speed.
+        # DONE: Don't forget that the Wheel object's position begins wherever
+        # DONE:   it last was, not necessarily 0.
 
 
 class TouchSensor(low_level_rb.TouchSensor):
@@ -741,7 +740,7 @@ class ArmAndClaw(object):
         # Sets the motor's position to 0 (the DOWN position).
         # At the DOWN position, the robot fits in its plastic bin,
         # so we start with the ArmAndClaw in that position.
-        self.calibrate()
+        #self.calibrate()
 
     def calibrate(self):
         self.raise_arm_and_close_claw()
