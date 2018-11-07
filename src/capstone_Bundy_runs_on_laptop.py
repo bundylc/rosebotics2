@@ -52,17 +52,21 @@ import mqtt_remote_method_calls as com
 def main():
     """ Constructs and runs a GUI for this program. """
     root = tkinter.Tk()
-    setup_gui(root)
+
+    mqtt = com.MqttClient()
+    mqtt.connect_to_ev3()
+
+    setup_gui(root, mqtt)
 
     root.mainloop()
     # --------------------------------------------------------------------------
-    # TODO: 5. Add code above that constructs a   com.MqttClient   that will
-    # TODO:    be used to send commands to the robot.  Connect it to this pc.
-    # TODO:    Test.  When OK, delete this TODO.
+    # TODsO: 5. Add code above that constructs a   com.MqttClient   that will
+    # TODOs:    be used to send commands to the robot.  Connect it to this pc.
+    # TODOs:    Test.  When OK, delete this TOsDO.
     # --------------------------------------------------------------------------
 
 
-def setup_gui(root_window):
+def setup_gui(root_window, mqtt):
     """ Constructs and sets up widgets on the given window. """
     frame = ttk.Frame(root_window, padding=10)
     frame.grid()
@@ -74,39 +78,42 @@ def setup_gui(root_window):
     go_forward_button.grid()
 
     go_forward_button['command'] = \
-        lambda: handle_go_forward()
+        lambda: handle_go_forward(speed_entry_box, mqtt)
 
 
-def handle_go_forward():
+def handle_go_forward(entry_box, mqtt):
+    speed = entry_box.get()
+    print("Send message with speed", speed)
+    mqtt.send_message('go_forward', [speed])
     """
     Tells the robot to go forward at the speed specified in the given entry box.
     """
     # --------------------------------------------------------------------------
-    # TODO: 6. This function needs the entry box in which the user enters
-    # TODO:    the speed at which the robot should move.  Make the 2 changes
-    # TODO:    necessary for the entry_box constructed in  setup_gui
-    # TODO:    to make its way to this function.  When done, delete this TODO.
+    # TO2DO: 6. This function needs the entry box in which the user enters
+    # TODwO:    the speed at which the robot should move.  Make the 2 changes
+    # TODOw:    necessary for the entry_box constructed in  setup_gui
+    # TODOw:    to make its way to this function.  When done, delete this TwODO.
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # TODO: 7. For this function to tell the robot what to do, it needs
-    # TODO:    the MQTT client constructed in main.  Make the 4 changes
-    # TODO:    necessary for that object to make its way to this function.
-    # TODO:    When done, delete this TODO.
+    # wTODO: 7. For this function to tell the robot what to do, it needs
+    # TwODO:    the MQTT client constructed in main.  Make the 4 changes
+    # TOwDO:    necessary for that object to make its way to this function.
+    # TODwO:    When done, delete this TOaDO.
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # TODO: 8. Add the single line of code needed to get the string that is
-    # TODO:    currently in the entry box.
-    # TODO:
-    # TODO:    Then add the single line of code needed to "call" a method on the
-    # TODO:    LISTENER that runs on the ROBOT, where that LISTENER is the
-    # TODO:    "delegate" object that is constructed when the ROBOT's code
-    # TODO:    runs on the ROBOT.  Send to the delegate the speed to use
-    # TODO:    plus a method name that you will implement in the DELEGATE's
-    # TODO:    class in the module that runs on the ROBOT.
-    # TODO:
-    # TODO:    Test by using a PRINT statement.  When done, delete this TODO.
+    # wTODO: 8. Add the single line of code needed to get the string that is
+    # TwODO:    currently in the entry box.
+    # TOwDO:
+    # TODwO:    Then add the single line of code needed to "call" a method on the
+    # TODOw:    LISTENER that runs on the ROBOT, where that LISTENER is the
+    # wTODO:    "delegate" object that is constructed when the ROBOT's code
+    # TwODO:    runs on the ROBOT.  Send to the delegate the speed to use
+    # TOwDO:    plus a method name that you will implement in the DELEGATE's
+    # TODwO:    class in the module that runs on the ROBOT.
+    # TODOw:
+    # TODOw:    Test by using a PRINT statement.  When done, delete this TdODO.
     # --------------------------------------------------------------------------
 
 
