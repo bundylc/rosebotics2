@@ -147,143 +147,159 @@ class DriveSystem(object):
     """
     A class for driving (moving) the robot.
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
-       their colleagues, the entire team, and Ji.
+<<<<<<< Updated upstream
+       their colleagues, the entire team, and Hao Jiang.
     """
 
+
+"""
+    # DONE: In the above line, put the name of the primary author of this class.
+=======
+       their colleagues, the entire team, and Ji.
+
     # TOdDO: In the above line, put the name of the primary author of this class.
+>>>>>>> Stashed changes"""
 
-    def __init__(self,
-                 left_wheel_port=ev3.OUTPUT_B,
-                 right_wheel_port=ev3.OUTPUT_C):
-        """
-        A DriveSystem has   self.left_wheel   and   self.right_wheel.
-        """
-        self.left_wheel = low_level_rb.Wheel(left_wheel_port)
-        self.right_wheel = low_level_rb.Wheel(right_wheel_port)
 
-    def start_moving(self,
+def __init__(self,
+             left_wheel_port=ev3.OUTPUT_B,
+             right_wheel_port=ev3.OUTPUT_C):
+    """
+    A DriveSystem has   self.left_wheel   and   self.right_wheel.
+    """
+    self.left_wheel = low_level_rb.Wheel(left_wheel_port)
+    self.right_wheel = low_level_rb.Wheel(right_wheel_port)
+
+
+def start_moving(self,
+                 left_wheel_duty_cycle_percent=100,
+                 right_wheel_duty_cycle_percent=100):
+    """
+    STARTS the robot MOVING at the given wheel speeds
+    (-100 to 100, where negative means spinning backward).
+    """
+    self.left_wheel.start_spinning(left_wheel_duty_cycle_percent)
+    self.right_wheel.start_spinning(right_wheel_duty_cycle_percent)
+
+
+def stop_moving(self, stop_action=StopAction.BRAKE.value):
+    """
+    STOPS the robot, using the given StopAction (which defaults to BRAKE).
+    """
+    self.left_wheel.stop_spinning(stop_action)
+    self.right_wheel.stop_spinning(stop_action)
+
+
+def move_for_seconds(self,
+                     seconds,
                      left_wheel_duty_cycle_percent=100,
-                     right_wheel_duty_cycle_percent=100):
-        """
-        STARTS the robot MOVING at the given wheel speeds
-        (-100 to 100, where negative means spinning backward).
-        """
-        self.left_wheel.start_spinning(left_wheel_duty_cycle_percent)
-        self.right_wheel.start_spinning(right_wheel_duty_cycle_percent)
-
-    def stop_moving(self, stop_action=StopAction.BRAKE.value):
-        """
-        STOPS the robot, using the given StopAction (which defaults to BRAKE).
-        """
-        self.left_wheel.stop_spinning(stop_action)
-        self.right_wheel.stop_spinning(stop_action)
-
-    def move_for_seconds(self,
-                         seconds,
-                         left_wheel_duty_cycle_percent=100,
-                         right_wheel_duty_cycle_percent=100,
-                         stop_action=StopAction.BRAKE):
-        """
-        Makes the robot MOVE for the given number of SECONDS at the given
-        wheel speeds (-100 to 100, where negative means spinning backward),
-        stopping using the given StopAction (which defaults to BRAKE).
-        """
-        self.start_moving(left_wheel_duty_cycle_percent,
-                          right_wheel_duty_cycle_percent)
-        # For pedagogical purposes, we use a WHILE loop to keep going for a
-        # given number of seconds, instead of using the simpler alternative:
-        #      time.sleep(seconds)
-        self.start_moving(left_wheel_duty_cycle_percent,
-                          right_wheel_duty_cycle_percent)
-        start_time = time.time()
-        while True:
-            if time.time() - start_time > seconds:
-                self.stop_moving(stop_action.value)
-                break
-
-    def go_straight_inches(self,
-                           inches,
-                           duty_cycle_percent=100,
-                           stop_action=StopAction.BRAKE):
-        self.start_moving(duty_cycle_percent, duty_cycle_percent)
-        while True:
-            if self.left_wheel.get_degrees_spun() >= 87.96 * inches:
-                self.stop_moving()
-                break
-
-        """
-        Makes the robot GO STRAIGHT for the given number of INCHES
-        at the given speed (-100 to 100, where negative means moving backward),
-        stopping using the given StopAction (which defaults to BRAKE).
-        """
-        # TODzO: Use one of the Wheel object's   get_degrees_spun   method.
-        # TODOz: Do a few experiments to determine the constant that converts
-        # TODzO:   from wheel-DEGREES-spun to robot-INCHES-moved.
-        # TODOz:   Assume that the conversion is linear with respect to speed.
-        # TOzDO: Don't forget that the Wheel object's position begins wherever
-        # TODzO:   it last was, not necessarily 0.
-
-    def spin_in_place_degrees(self,
-                              degrees,
-                              duty_cycle_percent=100,
-                              stop_action=StopAction.BRAKE):
-        self.start_moving(duty_cycle_percent, -duty_cycle_percent)
-        while True:
-            if self.left_wheel.get_degrees_spun() >= 5.29 * degrees:
-                self.stop_moving()
-                break
-        """
-        Makes the robot SPIN IN PLACE for the given number of DEGREES
-        at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
-        and NEGATIVE means COUNTER-CLOCKWISE),
-        stopping using the given StopAction (which defaults to BRAKE).
-        "Spinning in place" means that both wheels spin at the same speed
-        but in opposite directions.
-        """
-        # TODdO: Use one of the Wheel object's   get_degrees_spun   method.
-        # TODOd: Do a few experiments to determine the constant that converts
-        # TODO:   from WHEEL-degrees-spun to ROBOT-degrees-spun.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-        # TODO: Don't forget that the Wheel object's position begins wherever
-        # TODO:   it last was, not necessarily 0.
-
-    def turn_degrees(self,
-                     degrees,
-                     duty_cycle_percent=100,
+                     right_wheel_duty_cycle_percent=100,
                      stop_action=StopAction.BRAKE):
-        if degrees > 0:
-            self.start_moving(0, duty_cycle_percent)
-            while True:
-                if self.right_wheel.get_degrees_spun() >= degrees * 10.5:
-                    self.stop_moving()
-                    break
-        if degrees < 0:
-            self.start_moving(0, -duty_cycle_percent)
-            while True:
-                if self.right_wheel.get_degrees_spun() <= degrees * 10.5:
-                    self.stop_moving()
-                    break
-        """
-        Makes the robot TURN for the given number of DEGREES
-        at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
-        and NEGATIVE means COUNTER-CLOCKWISE),
-        stopping using the given StopAction (which defaults to BRAKE).
-        "Turning" means that both ONE wheel spins at the given speed and the
-        other wheel does NOT spin.
-        """
-        # TODO: Use the Wheel object's   get_degrees_spun   method.
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from WHEEL-degrees-SPUN to ROBOT-degrees-TURNED.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-        # TODO: Don't forget that the Wheel object's position begins wherever
-        # TODO:   it last was, not necessarily 0.
+    """
+    Makes the robot MOVE for the given number of SECONDS at the given
+    wheel speeds (-100 to 100, where negative means spinning backward),
+    stopping using the given StopAction (which defaults to BRAKE).
+    """
+    self.start_moving(left_wheel_duty_cycle_percent,
+                      right_wheel_duty_cycle_percent)
+    # For pedagogical purposes, we use a WHILE loop to keep going for a
+    # given number of seconds, instead of using the simpler alternative:
+    #      time.sleep(seconds)
+    self.start_moving(left_wheel_duty_cycle_percent,
+                      right_wheel_duty_cycle_percent)
+    start_time = time.time()
+    while True:
+        if time.time() - start_time > seconds:
+            self.stop_moving(stop_action.value)
+            break
+
+
+def go_straight_inches(self,
+                       inches,
+                       duty_cycle_percent=100,
+                       stop_action=StopAction.BRAKE):
+    self.start_moving(duty_cycle_percent, duty_cycle_percent)
+    while True:
+        if self.left_wheel.get_degrees_spun() >= 87.96 * inches:
+            self.stop_moving()
+            break
+
+    """
+    Makes the robot GO STRAIGHT for the given number of INCHES
+    at the given speed (-100 to 100, where negative means moving backward),
+    stopping using the given StopAction (which defaults to BRAKE).
+    """
+    # TODzO: Use one of the Wheel object's   get_degrees_spun   method.
+    # TODOz: Do a few experiments to determine the constant that converts
+    # TODzO:   from wheel-DEGREES-spun to robot-INCHES-moved.
+    # TODOz:   Assume that the conversion is linear with respect to speed.
+    # TOzDO: Don't forget that the Wheel object's position begins wherever
+    # TODzO:   it last was, not necessarily 0.
+
+
+def spin_in_place_degrees(self,
+                          degrees,
+                          duty_cycle_percent=100,
+                          stop_action=StopAction.BRAKE):
+    self.start_moving(duty_cycle_percent, -duty_cycle_percent)
+    while True:
+        if self.left_wheel.get_degrees_spun() >= 5.29 * degrees:
+            self.stop_moving()
+            break
+    """
+    Makes the robot SPIN IN PLACE for the given number of DEGREES
+    at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
+    and NEGATIVE means COUNTER-CLOCKWISE),
+    stopping using the given StopAction (which defaults to BRAKE).
+    "Spinning in place" means that both wheels spin at the same speed
+    but in opposite directions.
+    """
+
+    # DONE: Use one of the Wheel object's   get_degrees_spun   method.
+    # DONE: Do a few experiments to determine the constant that converts
+    # DONE:   from WHEEL-degrees-spun to ROBOT-degrees-spun.
+    # DONE:   Assume that the conversion is linear with respect to speed.
+    # DONE: Don't forget that the Wheel object's position begins wherever
+    # DONE:   it last was, not necessarily 0.
+
+
+def turn_degrees(self,
+                 degrees,
+                 duty_cycle_percent=100,
+                 stop_action=StopAction.BRAKE):
+    if degrees > 0:
+        self.start_moving(0, duty_cycle_percent)
+        while True:
+            if self.right_wheel.get_degrees_spun() >= degrees * 10.5:
+                self.stop_moving()
+                break
+    if degrees < 0:
+        self.start_moving(0, -duty_cycle_percent)
+        while True:
+            if self.right_wheel.get_degrees_spun() <= degrees * 10.5:
+                self.stop_moving()
+                break
+    """
+    Makes the robot TURN for the given number of DEGREES
+    at the given speed (-100 to 100, where POSITIVE means CLOCKWISE
+    and NEGATIVE means COUNTER-CLOCKWISE),
+    stopping using the given StopAction (which defaults to BRAKE).
+    "Turning" means that both ONE wheel spins at the given speed and the
+    other wheel does NOT spin.
+    """
+    # DONE: Use the Wheel object's   get_degrees_spun   method.
+    # DONE: Do a few experiments to determine the constant that converts
+    # DONE:   from WHEEL-degrees-SPUN to ROBOT-degrees-TURNED.
+    # DONE:   Assume that the conversion is linear with respect to speed.
+    # DONE: Don't forget that the Wheel object's position begins wherever
+    # DONE:   it last was, not necessarily 0.
 
 
 class TouchSensor(low_level_rb.TouchSensor):
     """
     A class for an EV3 touch sensor.
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
-       their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
+       their colleagues, the entire team, and Hao Jiang.
     """
 
     def __init__(self, port=ev3.INPUT_1):
@@ -295,26 +311,28 @@ class TouchSensor(low_level_rb.TouchSensor):
 
     def wait_until_pressed(self):
         while True:
-            print('running')
             if self.get_value() == 1:
-                break
-        """ Waits (doing nothing new) until the touch sensor is pressed. """
-        # TODsO.
+                return True
+
+    """ Waits (doing nothing new) until the touch sensor is pressed. """
+
+    # DONE.
 
     def wait_until_released(self):
         while True:
             print('running')
             if self.get_value() == 0:
-                break
-        """ Waits (doing nothing new) until the touch sensor is released. """
-        # TODOs
+                return True
+
+    """ Waits (doing nothing new) until the touch sensor is released. """
+    # DONE
 
 
 class ColorSensor(low_level_rb.ColorSensor):
     """
     A class for an EV3 color sensor.
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
-       their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
+       their colleagues, the entire team, and Hao Jiang.
     """
 
     def __init__(self, port=ev3.INPUT_3):
@@ -365,7 +383,7 @@ class ColorSensor(low_level_rb.ColorSensor):
         light intensity is less than the given value (threshold), which should
         be between 0 (no light reflected) and 100 (maximum light reflected).
         """
-        # TODO.
+        # DONE.
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
         while True:
@@ -376,7 +394,7 @@ class ColorSensor(low_level_rb.ColorSensor):
         light intensity is greater than the given value (threshold), which
         should be between 0 (no light reflected) and 100 (max light reflected).
         """
-        # TODO.
+        # DONE.
 
     def wait_until_color_is(self, color):
         while True:
@@ -406,7 +424,7 @@ class ColorSensor(low_level_rb.ColorSensor):
         of what color it sees is any one of the given sequence of colors.
         Each item in the sequence must be a Color (as defined above).
         """
-        # TODO.
+        # DONE.
 
 
 class Camera(object):
@@ -479,7 +497,7 @@ class Blob(object):
         self.center = center
         self.width = width
         self.height = height
-        self.screen_limits = Point(320, 240)  # FIXME
+        self.screen_limits = Point(320, 200)  # DONE
 
     def __repr__(self):
         return "center: ({:3d}, {:3d})  width, height: {:3d} {:3d}.".format(
@@ -514,6 +532,7 @@ class InfraredAsProximitySensor(low_level_rb.InfraredSensor):
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
        their colleagues, the entire team, and Jacob Ritenour.
     """
+
     # TODO: In the above line, put the name of the primary author of this class.
 
     def __init__(self, ir_sensor_port):
@@ -540,9 +559,8 @@ class InfraredAsProximitySensor(low_level_rb.InfraredSensor):
         in inches, where about 39.37 inches (which is 100 cm) means no object
         is within its field of vision.
         """
-        inches_per_cm = 1/2.54
+        inches_per_cm = 1 / 2.54
         return 70 * inches_per_cm * self.get_distance_to_nearest_object() / 100
-
 
 
 class InfraredAsBeaconSensor(object):
@@ -591,20 +609,20 @@ class InfraredAsBeaconSensor(object):
         return self._underlying_ir_sensor.heading
 
     def get_distance_to_beacon(self):
-        """
-        Returns the heading to the Beacon.
+        """Returns the heading to the Beacon.
         Units are per the   get_heading_and_distance_to_beacon   method.
-        """
+
         return self._underlying_ir_sensor.distance
+        """
 
 
 class InfraredAsBeaconButtonSensor(object):
-    """
-    A class for the infrared sensor when it is in the mode in which it
+    """A class for the infrared sensor when it is in the mode in which it
     measures which (if any) of the Beacon buttons are being pressed.
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
     their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
     """
+
     # TODO: In the above line, put the name of the primary author of this class.
 
     def __init__(self, channel=1):
@@ -618,12 +636,11 @@ class InfraredAsBeaconButtonSensor(object):
             "beacon": BEACON_BUTTON
         }
 
-
     def set_channel(self, channel):
         """
         Makes this sensor look for signals on the given channel. The physical
         Beacon has a switch that can set the channel to 1, 2, 3 or 4.
-        """
+
         self.channel = channel
         self._underlying_ir_sensor = ev3.RemoteControl(channel=channel)
 
@@ -631,13 +648,13 @@ class InfraredAsBeaconButtonSensor(object):
         return self.channel
 
     def get_buttons_pressed(self):
-    #     """
-    #     Returns a list of the numbers corresponding to buttons on the Beacon
-    #     which are currently pressed.
-    #     """
-         button_list = self._underlying_ir_sensor.buttons_pressed
-         for k in range(len(button_list)):
-             button_list[k] = self.button_names[button_list[k]]
+         """
+        #     Returns a list of the numbers corresponding to buttons on the Beacon
+        #     which are currently pressed.
+        #     """
+        button_list = self._underlying_ir_sensor.buttons_pressed
+        for k in range(len(button_list)):
+            button_list[k] = self.button_names[button_list[k]]
 
     def is_top_red_button_pressed(self):
         return self._underlying_ir_sensor.red_up
@@ -658,6 +675,7 @@ class BrickButtonSensor(object):
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
     their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
     """
+
     # TODO: In the above line, put the name of the primary author of this class.
 
     def __init__(self):
@@ -709,6 +727,7 @@ class ArmAndClaw(object):
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
     their colleagues, the entire team, and Landon Bundy.
     """
+
     # TODdO: In the above line, put the name of the primary author of this class.
 
     def __init__(self, touch_sensor, port=ev3.OUTPUT_A):
@@ -734,21 +753,18 @@ class ArmAndClaw(object):
                 self.motor.reset_degrees_spun()
                 break
 
-
         """
         Raise the arm at a reasonable speed until the touch sensor is pressed.
         Then lower the arm 14.2 revolutions (i.e., 14.2 * 360 degrees),
         again at a reasonable speed. Then set the motor's position to 0.
         (Hence, 0 means all the way DOWN and 14.2 * 360 means all the way UP).
         """
-        # TODO: Do this as STEP 2 of implementing this class.
+        # DONE: Do this as STEP 2 of implementing this class.
 
     def raise_arm_and_close_claw(self):
         self.motor.start_spinning(100)
-        while True:
-            if self.touch_sensor.get_value() == 1:
-                self.motor.stop_spinning()
-                break
+        if self.touch_sensor.wait_until_pressed():
+            self.motor.stop_spinning()
 
         """
         Raise the arm (and hence close the claw), by making this ArmAndClaw
@@ -756,15 +772,19 @@ class ArmAndClaw(object):
         Positive speeds make the arm go UP; negative speeds make it go DOWN.
         Stop when the touch sensor is pressed.
         """
-        # TODO: Do this as STEP 1 of implementing this class.
+        # DONE: Do this as STEP 1 of implementing this class.
 
-    #def move_arm_to_position(self, position):
-        #self.motor.start_spinning(100)
-        #while True:
-            #if self.position.get_value() == position:
-                #break
+    def move_arm_to_position(self, position):
+        print(self.motor.get_degrees_spun())
+        self.motor.start_spinning(100)
+        while True:
+            print(self.motor.get_degrees_spun())
+            if self.motor.get_degrees_spun() >= position * 360:
+                self.motor.stop_spinning()
+                break
+
         """
         Spin the arm's motor until it reaches the given position.
         Move at a reasonable speed.
         """
-        # TODO: Do this as STEP 3 of implementing this class.
+        # DONE: Do this as STEP 3 of implementing this class.
