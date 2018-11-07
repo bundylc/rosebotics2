@@ -8,10 +8,13 @@ import time
 
 
 def main():
-    """ Runs YOUR specific part of the project """
+    #""" Runs YOUR specific part of the project """
+    #robot = rb.Snatch3rRobot()
+    #robot.touch_sensor.wait_until_released()
+    #print('yes')
     robot = rb.Snatch3rRobot()
-    robot.touch_sensor.wait_until_released()
-    print('yes')
+    arm = robot.arm
+    arm.calibrate()
 
-robot = rb.Snatch3rRobot()
-robot.raise_arm_and_close_claw()
+
+main()
