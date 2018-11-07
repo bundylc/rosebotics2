@@ -14,10 +14,10 @@ Authors:  David Mutchler, his colleagues, and Landon Bundy.
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# TODO: 2. With your instructor, review the "big picture" of laptop-robot
-# TODO:    communication, per the comment in mqtt_sender.py.
-# TODO:    Once you understand the "big picture", delete this TODO.
-# ------------------------------------------------------------------------------
+# TOsDO: 2. With your instructor, review the "big picture" of laptop-robot
+# TODsO:    communication, per the comment in mqtt_sender.py.
+# TODOs:    Once you understand the "big picture", delete this TODOd.d
+# -----------------------------------------------------------------d-------------
 
 import rosebotics_new as rb
 import time
@@ -26,37 +26,60 @@ import ev3dev.ev3 as ev3
 
 
 def main():
+    robot = rb.Snatch3rRobot()
+
+    rc = RemoteControl(robot)
+    mqtt = com.MqttClient(rc)
+    mqtt.connect_to_pc()
+
+
+
     # --------------------------------------------------------------------------
-    # TODO: 3. Construct a Snatch3rRobot.  Test.  When OK, delete this TODO.
+    # sTODO: 3. Construct a Snatch3rRobot.  Test.  When OK, delete this TsODO.
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # TODO: 4. Add code that constructs a   com.MqttClient   that will
-    # TODO:    be used to receive commands sent by the laptop.
-    # TODO:    Connect it to this robot.  Test.  When OK, delete this TODO.
+    # TsODO: 4. Add code that constructs a   com.MqttClient   that will
+    # TOsDO:    be used to receive commands sent by the laptop.
+    # TODsO:    Connect it to this robot.  Test.  When OK, delete this TODsO.
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # TODO: 5. Add a class for your "delegate" object that will handle messages
-    # TODO:    sent from the laptop.  Construct an instance of the class and
-    # TODO:    pass it to the MqttClient constructor above.  Augment the class
-    # TODO:    as needed for that, and also to handle the go_forward message.
-    # TODO:    Test by PRINTING, then with robot.  When OK, delete this TODO.
+    # TODOs: 5. Add a class for your "delegate" object that will handle messages
+    # sTODO:    sent from the laptop.  Construct an instance of the class and
+    # TsODO:    pass it to the MqttClient constructor above.  Augment the class
+    # TOsDO:    as needed for that, and also to handle the go_forward message.
+    # TODsO:    Test by PRINTING, then with robot.  When OK, delete this TOsDO.
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # TODO: 6. With your instructor, discuss why the following WHILE loop,
-    # TODO:    that appears to do nothing, is necessary.
-    # TODO:    When you understand this, delete this TODO.
+    # TODOs: 6. With your instructor, discuss why the following WHILE loop,
+    # TsODO:    that appears to do nothing, is necessary.
+    # TOsDO:    When you understand this, delete this TODOs.s
     # --------------------------------------------------------------------------
     while True:
         # ----------------------------------------------------------------------
-        # TODO: 7. Add code that makes the robot beep if the top-red button
-        # TODO:    on the Beacon is pressed.  Add code that makes the robot
-        # TODO:    speak "Hello. How are you?" if the top-blue button on the
-        # TODO:    Beacon is pressed.  Test.  When done, delete this TODO.
+        # aTODO: 7. Add code that makes the robot beep if the top-red button
+        # TaODO:    on the Beacon is pressed.  Add code that makes the robot
+        # TOaDO:    speak "Hello. How are you?" if the top-blue button on the
+        # TODaO:    Beacon is pressed.  Test.  When done, delete this TOxDO.
         # ----------------------------------------------------------------------
         time.sleep(0.01)  # For the delegate to do its work
+
+
+class RemoteControl(object):
+    def __init__(self, robot):
+        """
+        Stores the robot.
+          :type  robot:  rb.Snatch3rRobot
+        """
+        self.robot = robot
+
+    def go_forward(self, speed):
+        """ Makes the robot go forward at a given speed. """
+        print("tell robot to move at", speed)
+        speed = int(speed)
+        self.robot.drive_system.start_moving(speed, speed)
 
 
 main()
