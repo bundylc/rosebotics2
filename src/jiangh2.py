@@ -17,9 +17,9 @@ def main():
     #camera_sense()
     #test_touch_sensor()
     #test_infrared()
-    #test_arm()
+    test_arm()
     #follow_object()
-    right_camera()
+    #right_camera()
 def test_touch_sensor():
     robot = rb.Snatch3rRobot()
     robot.touch_sensor.wait_until_pressed()
