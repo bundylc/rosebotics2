@@ -21,7 +21,7 @@ def move_item():
     robot.drive_system.start_moving()
     robot.color_sensor.wait_until_color_is(5)
     robot.drive_system.stop_moving()
-    #robot.arm.raise_arm_and_close_claw()
+    robot.arm.raise_arm_and_close_claw()
     robot.drive_system.turn_degrees(90)
     robot.arm.calibrate()
     robot.drive_system.turn_degrees(-90)
@@ -39,7 +39,7 @@ def drive_to_green():
         robot.color_sensor.wait_until_color_is(3)
         while True:
             robot.drive_system.stop_moving()
-            #robot.arm.raise_arm_and_close_claw()
+            robot.arm.raise_arm_and_close_claw()
             robot.arm.calibrate()
             print('Stopped for the color green')
             break
