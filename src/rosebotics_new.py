@@ -133,9 +133,8 @@ class Snatch3rRobot(object):
         self.camera = Camera(camera_port)
 
         self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
-        # self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
-        # self.beacon_button_sensor = InfraredAsBeaconButtonSensor(ir_sensor,
-        #                                                          channel=1)
+        self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
+        self.beacon_button_sensor = InfraredAsBeaconButtonSensor(channel=1)
 
         self.brick_button_sensor = BrickButtonSensor()
 
@@ -309,6 +308,7 @@ class TouchSensor(low_level_rb.TouchSensor):
         return self.get_value() == 1
 
     def wait_until_pressed(self):
+        self.get_value()
         while True:
             if self.get_value() == 1:
                 return True
@@ -319,7 +319,7 @@ class TouchSensor(low_level_rb.TouchSensor):
 
     def wait_until_released(self):
         while True:
-            print('running')
+            print('pressed')
             if self.get_value() == 0:
                 return True
 
@@ -740,7 +740,7 @@ class ArmAndClaw(object):
         # Sets the motor's position to 0 (the DOWN position).
         # At the DOWN position, the robot fits in its plastic bin,
         # so we start with the ArmAndClaw in that position.
-        self.calibrate()
+        #self.calibrate()
 
     def calibrate(self):
         self.raise_arm_and_close_claw()

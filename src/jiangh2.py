@@ -11,15 +11,15 @@ import ev3dev.ev3 as ev3
 def main():
     """ Runs YOUR specific part of the project """
     #run_test_drive_system()
-    #run_test_polygon(10)
+    #run_test_polygon(4)
     #run_test_ellipse()
     #run_and_stop(2)
     #camera_sense()
     #test_touch_sensor()
     #test_infrared()
-    test_arm()
+    #test_arm()
     #follow_object()
-    #right_camera()
+    right_camera()
 def test_touch_sensor():
     robot = rb.Snatch3rRobot()
     robot.touch_sensor.wait_until_pressed()
@@ -102,6 +102,7 @@ def follow_object():
             if robot.camera.get_biggest_blob().is_against_left_edge():
                 robot.drive_system.turn_degrees(10, 100)
                 robot.drive_system.right_wheel.reset_degrees_spun()
+
 
 def right_camera():
     robot = rb.Snatch3rRobot()

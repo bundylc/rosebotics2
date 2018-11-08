@@ -58,6 +58,11 @@ def main():
         # TODO:    speak "Hello. How are you?" if the top-blue button on the
         # TODO:    Beacon is pressed.  Test.  When done, delete this TODO.
         # ----------------------------------------------------------------------
+        if robot.beacon_button_sensor.is_top_red_button_pressed():
+            print('speaking')
+            ev3.Sound.speak("How are you?").wait()
+        if robot.beacon_button_sensor.is_top_blue_button_pressed():
+            robot.arm.move_arm_to_position(10)
         time.sleep(0.01)  # For the delegate to do its work
 
 
