@@ -8,11 +8,16 @@ import time
 
 
 def main():
-    robot = rb.Snatch3rRobot()
-    robot.drive_system.move_for_seconds(5)
+    test_touch_sensor()
 
 
 main()
+
+
+def test_touch_sensor():
+    robot = rb.Snatch3rRobot()
+    robot.touch_sensor.wait_until_pressed()
+    print('yes')
 
 
 def move_item():
