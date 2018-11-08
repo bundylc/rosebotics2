@@ -11,9 +11,9 @@ import time
 def main():
     """ Runs YOUR specific part of the project """
     robot = rb.Snatch3rRobot()
-    while(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<15):
+    while(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<10):
         ev3.Sound.beep().wait()
-        if(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()>=15):
+        if(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()>=10):
             break
     print(1)
 
