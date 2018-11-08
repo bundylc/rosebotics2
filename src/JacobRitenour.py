@@ -25,7 +25,7 @@ def test_proximity_sensor():
     robot = rb.Snatch3rRobot()
     print(1)
     while (True):
-        if (robot.proximity_sensor.get_distance_to_nearest_object_in_inches() < 10):
+        if (robot.proximity_sensor.get_distance_to_nearest_object_in_inches() < 15):
             ev3.Sound.beep().wait()
 
 
