@@ -9,8 +9,7 @@ import time
 
 def main():
     robot = rb.Snatch3rRobot()
-    arm = robot.arm
-    arm.calibrate()
+    robot.drive_system.move_for_seconds(5)
 
 
 main()
