@@ -10,11 +10,23 @@ import time
 
 def main():
     """ Runs YOUR specific part of the project """
+    test_color_sensor()
+    test_proximity_sensor()
+
+def test_color_sensor():
+    """Test for the robot's color sensor"""
+    robot=rb.Snatch3rRobot()
+    robot.drive_system.start_moving(20,20)
+    if(robot.color_sensor.get_reflected_intensity()<=5):
+        robot.drive_system.stop_moving()
+
+def test_proximity_sensor():
+    """Test for the robot's proximity sensor"""
     robot = rb.Snatch3rRobot()
-    while(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<15):
-        ev3.Sound.beep().wait()
-        if(robot.proximity_sensor.get_distance_to_nearest_object_in_inches()>=15):
-            break
     print(1)
+    while (True):
+        if (robot.proximity_sensor.get_distance_to_nearest_object_in_inches() < 10):
+            ev3.Sound.beep().wait()
+
 
 main()

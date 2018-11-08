@@ -64,7 +64,8 @@ def main():
         # TOaDO:    speak "Hello. How are you?" if the top-blue button on the
         # TODaO:    Beacon is pressed.  Test.  When done, delete this TOxDO.
         # ----------------------------------------------------------------------
-        robot.drive_system.move_for_seconds(5)
+
+
         time.sleep(0.01)  # For the delegate to do its work
 
 
