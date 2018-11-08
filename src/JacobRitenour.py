@@ -17,7 +17,7 @@ def test_color_sensor():
     """Test for the robot's color sensor"""
     robot=rb.Snatch3rRobot()
     robot.drive_system.start_moving(20,20)
-    if(robot.color_sensor.get_color()=='red'):
+    if(robot.color_sensor.get_color()=='blue'):
         robot.drive_system.stop_moving()
 
 def test_proximity_sensor():
