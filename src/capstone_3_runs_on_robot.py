@@ -80,8 +80,31 @@ class RemoteControlEtc(object):
 
     def go_forward(self, speed_string):
         """makes the robot go forward at the given speed """
-        print("Telling the robot to start moving at", speed_string)
+        print("Telling the robot to go forward", speed_string)
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed, speed)
+
+    def go_left(self, speed_string):
+        print("Telling the robot to go left", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.turn_degrees(90, speed)
+
+    def go_right(self, speed_string):
+        print("Telling the robot to go right", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.turn_degrees(90, -speed)
+
+    def stop(self):
+        print("Telling the robot to stop")
+        self.robot.drive_system.stop_moving()
+
+    def go_back(self, speed_string):
+        print("Telling the robot to go back", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.start_moving(-speed, -speed)
+
+
+
+
 
 main()
