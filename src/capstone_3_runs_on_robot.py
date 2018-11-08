@@ -35,9 +35,9 @@ def main():
     # TODO:    be used to receive commands sent by the laptop.
     # TODO:    Connect it to this robot.  Test.  When OK, delete this TODO.
     # --------------------------------------------------------------------------
-    rc = RemoteControlEtc(robot)
-    mqtt_client = com.MqttClient(rc)
-    mqtt_client.connect_to_pc()
+    #rc = RemoteControlEtc(robot)
+    #mqtt_client = com.MqttClient(rc)
+    #mqtt_client.connect_to_pc()
     # --------------------------------------------------------------------------
     # TODO: 5. Add a class for your "delegate" object that will handle messages
     # TODO:    sent from the laptop.  Construct an instance of the class and
@@ -63,6 +63,10 @@ def main():
             ev3.Sound.speak("How are you?").wait()
         if robot.beacon_button_sensor.is_top_blue_button_pressed():
             robot.arm.move_arm_to_position(10)
+        if robot.beacon_button_sensor.is_bottom_red_button_pressed():
+            new_rc = RemoteControlEtc(robot)
+            mqtt_client1 = com.MqttClient(new_rc)
+            mqtt_client1.connect_to_pc()
         time.sleep(0.01)  # For the delegate to do its work
 
 
