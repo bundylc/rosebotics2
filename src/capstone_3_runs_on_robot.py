@@ -66,17 +66,23 @@ def main():
                 if robot.camera.get_biggest_blob().get_area() >= 600:
 
                     if robot.camera.get_biggest_blob().center.x > 190:
+                        robot.drive_system.right_wheel.reset_degrees_spun()
+                        robot.drive_system.left_wheel.reset_degrees_spun()
                         robot.drive_system.turn_degrees(-4, 70)
                         robot.drive_system.right_wheel.reset_degrees_spun()
                         robot.drive_system.stop_moving()
                     elif robot.camera.get_biggest_blob().center.x < 130:
+                        robot.drive_system.right_wheel.reset_degrees_spun()
+                        robot.drive_system.left_wheel.reset_degrees_spun()
                         robot.drive_system.turn_degrees(4, 70)
                         robot.drive_system.right_wheel.reset_degrees_spun()
                         robot.drive_system.stop_moving()
                     else:
-                        robot.drive_system.stop_moving()
+                        robot.drive_system.start_moving(30, 30)
 
                 elif robot.camera.get_biggest_blob().get_area() < 600:
+                    robot.drive_system.right_wheel.reset_degrees_spun()
+                    robot.drive_system.left_wheel.reset_degrees_spun()
                     robot.drive_system.spin_in_place_degrees(6, 40)
                     robot.drive_system.right_wheel.reset_degrees_spun()
                     robot.drive_system.left_wheel.reset_degrees_spun()
@@ -84,6 +90,7 @@ def main():
 
                 if robot.beacon_button_sensor.is_top_blue_button_pressed():
                     print("break")
+                    robot.drive_system.stop_moving()
                     break
 
         if robot.beacon_button_sensor.is_bottom_blue_button_pressed():
@@ -141,7 +148,11 @@ class RemoteControlEtc(object):
         print("Telling the robot to arm down")
         self.robot.arm.move_arm_to_position(0)
 
+    def chase_mode(self):
+        print("Telling the robot to chase")
 
-
+        #while True:
+         #   if self.robot.beacon_button_sensor.is_top_red_button_pressed():
+          #      break
 
 main()

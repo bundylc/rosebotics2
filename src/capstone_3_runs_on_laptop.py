@@ -93,16 +93,18 @@ def set_remote_control_gui(root_window, mqtt_client):
     exit_button = ttk.Button(main_frame, text="Exit")
     arm_up_button = ttk.Button(main_frame, text="Arm_up")
     arm_down_button = ttk.Button(main_frame, text="Arm_down")
+    chase_mode_button = ttk.Button(main_frame, text="chase_mode")
 
     speed_entry_box.grid(row=1, column=2)
-    go_forward_button.grid(row=2, column=2)
-    go_left_button.grid(row=3, column=1)
-    go_right_button.grid(row=3, column=3)
-    stop_button.grid(row=3, column=2)
-    back_button.grid(row=4, column=2)
-    exit_button.grid(row=5, column=2)
+    go_forward_button.grid(row=3, column=2)
+    go_left_button.grid(row=4, column=1)
+    go_right_button.grid(row=4, column=3)
+    stop_button.grid(row=4, column=2)
+    back_button.grid(row=5, column=2)
+    exit_button.grid(row=6, column=2)
     arm_up_button.grid(row=2, column=1)
     arm_down_button.grid(row=2, column=3)
+    chase_mode_button.grid(row=2, column=2)
 
     go_forward_button['command'] = \
         lambda: handle_go_forward(speed_entry_box, mqtt_client)
@@ -119,6 +121,8 @@ def set_remote_control_gui(root_window, mqtt_client):
         lambda: handle_arm_up(mqtt_client)
     arm_down_button['command'] = \
         lambda: handle_arm_down(mqtt_client)
+    chase_mode_button['command'] = \
+        lambda: handle_chase_mode(mqtt_client)
 
 
 def handle_go_forward(entry_box, mqtt_client):
@@ -161,6 +165,11 @@ def handle_arm_up(mqtt_client):
 def handle_arm_down(mqtt_client):
     print('Sending the arm_down message')
     mqtt_client.send_message('arm_down')
+
+
+def handle_chase_mode(mqtt_client):
+    print('Sending the chase_mode message')
+    mqtt_client.send_message('chase_mode')
 
 
     # --------------------------------------------------------------------------
