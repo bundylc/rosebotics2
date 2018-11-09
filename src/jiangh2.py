@@ -10,7 +10,7 @@ import ev3dev.ev3 as ev3
 
 def main():
     """ Runs YOUR specific part of the project """
-    #run_test_drive_system()
+    run_test_drive_system()
     #run_test_polygon(4)
     #run_test_ellipse()
     #run_and_stop(2)
@@ -28,8 +28,8 @@ def test_touch_sensor():
 
 def run_test_drive_system():
     robot = rb.Snatch3rRobot()
-    robot.drive_system.go_straight_inches(10)
-    robot.drive_system.spin_in_place_degrees(90, 50)
+    #robot.drive_system.go_straight_inches(10)
+    #robot.drive_system.spin_in_place_degrees(90, 50)
     robot.drive_system.turn_degrees(-90, 50)
 
 

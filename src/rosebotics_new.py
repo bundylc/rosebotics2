@@ -270,12 +270,14 @@ class DriveSystem(object):
             while True:
                 if self.right_wheel.get_degrees_spun() >= degrees * 10.5:
                     self.stop_moving()
+                    self.right_wheel.reset_degrees_spun(0)
                     break
         if degrees < 0:
             self.start_moving(0, -duty_cycle_percent)
             while True:
                 if self.right_wheel.get_degrees_spun() <= degrees * 10.5:
                     self.stop_moving()
+                    self.right_wheel.reset_degrees_spun(0)
                     break
         """
         Makes the robot TURN for the given number of DEGREES
@@ -509,7 +511,7 @@ class Blob(object):
         return self.center.x - (self.width + 1) / 2 <= 0
 
     def is_against_right_edge(self):
-        return self.center.x + (self.width / 2 + 1) / 2 >= self.screen_limits.x
+        return self.center.x + (self.width + 1) / 2 >= self.screen_limits.x
 
     def is_against_top_edge(self):
         return self.center.y - (self.height + 1) / 2 <= 0
@@ -775,6 +777,7 @@ class ArmAndClaw(object):
         # DONE: Do this as STEP 1 of implementing this class.
 
     def move_arm_to_position(self, position):
+        self.calibrate()
         print(self.motor.get_degrees_spun())
         self.motor.start_spinning(100)
         while True:
