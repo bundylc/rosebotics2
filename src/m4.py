@@ -3,7 +3,7 @@
   Fall term, 2018-2019.
 """
 
-import rosebotics as rb
+import rosebotics_new as rb
 import time
 
 
@@ -66,7 +66,7 @@ def move_item():
     robot.color_sensor.wait_until_color_is(6)
     robot.drive_system.stop_moving()
     robot.arm.raise_arm_and_close_claw()
-    robot.drive_system.turn_degrees(90)
+    robot.drive_system.spin_in_place_degrees(90)
     robot.drive_system.go_straight_inches(10)
     robot.arm.calibrate()
     robot.drive_system.go_straight_inches(-5)
@@ -79,8 +79,24 @@ def move_item():
     robot.drive_system.stop_moving()
 
 
+def car():
+    robot = rb.Snatch3rRobot()
+    robot.drive_system.start_moving()
+    if robot.color_sensor.get_value(2):
+        robot.drive_system.stop_moving()
+    if robot.color_sensor.get_value(6):
+        robot.drive_system.turn_degrees(90)
+
+
+def calibrate():
+    robot = rb.Snatch3rRobot
+    robot.arm.calibrate()
+
+
 def main():
     move_item()
+    car()
+    calibrate()
 
 
 main()

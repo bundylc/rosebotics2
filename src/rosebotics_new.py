@@ -742,7 +742,7 @@ class ArmAndClaw(object):
         # Sets the motor's position to 0 (the DOWN position).
         # At the DOWN position, the robot fits in its plastic bin,
         # so we start with the ArmAndClaw in that position.
-        #self.calibrate()
+        self.calibrate()
 
     def calibrate(self):
         self.raise_arm_and_close_claw()
@@ -777,7 +777,6 @@ class ArmAndClaw(object):
         # DONE: Do this as STEP 1 of implementing this class.
 
     def move_arm_to_position(self, position):
-        self.calibrate()
         print(self.motor.get_degrees_spun())
         self.motor.start_spinning(100)
         while True:
@@ -785,6 +784,7 @@ class ArmAndClaw(object):
             if self.motor.get_degrees_spun() >= position * 360:
                 self.motor.stop_spinning()
                 break
+
 
         """
         Spin the arm's motor until it reaches the given position.
