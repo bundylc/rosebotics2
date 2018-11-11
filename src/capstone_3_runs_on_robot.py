@@ -61,8 +61,43 @@ def main():
         if robot.beacon_button_sensor.is_top_red_button_pressed():
             print('speaking')
             ev3.Sound.speak("How are you?").wait()
+        if robot.beacon_button_sensor.is_bottom_red_button_pressed():
+            while True:
+                if robot.camera.get_biggest_blob().get_area() >= 600:
+
+                    if robot.camera.get_biggest_blob().center.x > 190:
+                        robot.drive_system.right_wheel.reset_degrees_spun()
+                        robot.drive_system.left_wheel.reset_degrees_spun()
+                        robot.drive_system.turn_degrees(-4, 70)
+                        robot.drive_system.right_wheel.reset_degrees_spun()
+                        robot.drive_system.stop_moving()
+                    elif robot.camera.get_biggest_blob().center.x < 130:
+                        robot.drive_system.right_wheel.reset_degrees_spun()
+                        robot.drive_system.left_wheel.reset_degrees_spun()
+                        robot.drive_system.turn_degrees(4, 70)
+                        robot.drive_system.right_wheel.reset_degrees_spun()
+                        robot.drive_system.stop_moving()
+                    else:
+                        robot.drive_system.start_moving(30, 30)
+
+                elif robot.camera.get_biggest_blob().get_area() < 600:
+                    robot.drive_system.right_wheel.reset_degrees_spun()
+                    robot.drive_system.left_wheel.reset_degrees_spun()
+                    robot.drive_system.spin_in_place_degrees(6, 40)
+                    robot.drive_system.right_wheel.reset_degrees_spun()
+                    robot.drive_system.left_wheel.reset_degrees_spun()
+                    ev3.Sound.speak("I lost it").wait()
+
+                if robot.beacon_button_sensor.is_top_blue_button_pressed():
+                    print("break")
+                    robot.drive_system.stop_moving()
+                    break
+
+        if robot.beacon_button_sensor.is_bottom_blue_button_pressed():
+            ev3.Sound.speak("I lost it").wait()
         if robot.beacon_button_sensor.is_top_blue_button_pressed():
-            robot.arm.move_arm_to_position(10)
+            print("break")
+            break
         time.sleep(0.01)  # For the delegate to do its work
 
 
@@ -76,8 +111,48 @@ class RemoteControlEtc(object):
 
     def go_forward(self, speed_string):
         """makes the robot go forward at the given speed """
-        print("Telling the robot to start moving at", speed_string)
+        print("Telling the robot to go forward", speed_string)
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed, speed)
+
+    def go_left(self, speed_string):
+        self.robot.drive_system.right_wheel.reset_degrees_spun()
+        self.robot.drive_system.left_wheel.reset_degrees_spun()
+        print("Telling the robot to go left", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.turn_degrees(90, speed)
+
+    def go_right(self, speed_string):
+        self.robot.drive_system.right_wheel.reset_degrees_spun()
+        self.robot.drive_system.left_wheel.reset_degrees_spun()
+        print("Telling the robot to go right", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.turn_degrees(-90, speed)
+
+    def stop(self):
+        print("Telling the robot to stop")
+        self.robot.drive_system.stop_moving()
+        self.robot.drive_system.right_wheel.reset_degrees_spun()
+        self.robot.drive_system.left_wheel.reset_degrees_spun()
+
+    def go_back(self, speed_string):
+        print("Telling the robot to go back", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.start_moving(-speed, -speed)
+
+    def arm_up(self):
+        print("Telling the robot to arm up")
+        self.robot.arm.move_arm_to_position(12)
+
+    def arm_down(self):
+        print("Telling the robot to arm down")
+        self.robot.arm.move_arm_to_position(0)
+
+    def chase_mode(self):
+        print("Telling the robot to chase")
+
+        #while True:
+         #   if self.robot.beacon_button_sensor.is_top_red_button_pressed():
+          #      break
 
 main()
