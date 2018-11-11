@@ -20,6 +20,8 @@ def main():
     #test_arm()
     #follow_object()
     #right_camera()
+
+
 def test_touch_sensor():
     robot = rb.Snatch3rRobot()
     robot.touch_sensor.wait_until_pressed()
@@ -30,7 +32,7 @@ def run_test_drive_system():
     robot = rb.Snatch3rRobot()
     #robot.drive_system.go_straight_inches(10)
     #robot.drive_system.spin_in_place_degrees(90, 50)
-    robot.drive_system.turn_degrees(-90, 50)
+    robot.drive_system.turn_degrees(90, 50)
 
 
 def run_test_polygon(n):
