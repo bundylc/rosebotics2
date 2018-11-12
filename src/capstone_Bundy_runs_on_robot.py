@@ -28,9 +28,9 @@ import ev3dev.ev3 as ev3
 def main():
     robot = rb.Snatch3rRobot()
 
-    rc = RemoteControl(robot)
-    mqtt = com.MqttClient(rc)
-    mqtt.connect_to_pc()
+    rc = RemoteControlEtc(robot)
+    mqtt_client = com.MqttClient(rc)
+    mqtt_client.connect_to_pc()
 
 
 
@@ -58,36 +58,72 @@ def main():
     # TOsDO:    When you understand this, delete this TODOs.s
     # --------------------------------------------------------------------------
     while True:
-        # ----------------------------------------------------------------------
+        """# ----------------------------------------------------------------------
         # aTODO: 7. Add code that makes the robot beep if the top-red button
         # TaODO:    on the Beacon is pressed.  Add code that makes the robot
         # TOaDO:    speak "Hello. How are you?" if the top-blue button on the
         # TODaO:    Beacon is pressed.  Test.  When done, delete this TOxDO.
-        # ----------------------------------------------------------------------
-        if robot.beacon_button_sensor.is_top_red_button_pressed():
-            print('speaking')
-            ev3.Sound.speak("What up").wait()
-        if robot.beacon_button_sensor.is_top_blue_button_pressed():
-            robot.arm.move_arm_to_position(4)
-        if robot.beacon_button_sensor.is_bottom_blue_button_pressed():
-            robot.drive_system.move_for_seconds(5)
-
-        time.sleep(0.01)  # For the delegate to do its work
+        # ----------------------------------------------------------------------"""
 
 
-class RemoteControl(object):
+class RemoteControlEtc(object):
     def __init__(self, robot):
         """
         Stores the robot.
-          :type  robot:  rb.Snatch3rRobot
+            :type robot:  rb.Snatch3rRobot
         """
         self.robot = robot
 
-    def go_forward(self, speed):
-        """ Makes the robot go forward at a given speed. """
-        print("tell robot to move at", speed)
-        speed = int(speed)
+    def go_forward(self, speed_string):
+        """makes the robot go forward at the given speed """
+        print("Telling the robot to go forward", speed_string)
+        speed = int(speed_string)
         self.robot.drive_system.start_moving(speed, speed)
+
+    def go_left(self, speed_string):
+        self.robot.drive_system.right_wheel.reset_degrees_spun()
+        self.robot.drive_system.left_wheel.reset_degrees_spun()
+        print("Telling the robot to go left", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.turn_degrees(90, speed)
+
+    def go_right(self, speed_string):
+        self.robot.drive_system.right_wheel.reset_degrees_spun()
+        self.robot.drive_system.left_wheel.reset_degrees_spun()
+        print("Telling the robot to go right", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.turn_degrees(-90, speed)
+
+    def stop(self):
+        print("Telling the robot to stop")
+        self.robot.drive_system.stop_moving()
+        self.robot.drive_system.right_wheel.reset_degrees_spun()
+        self.robot.drive_system.left_wheel.reset_degrees_spun()
+
+    def go_back(self, speed_string):
+        print("Telling the robot to go back", speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.start_moving(-speed, -speed)
+
+    def arm_up(self):
+        print("Telling the robot to arm up")
+        self.robot.arm.move_arm_to_position(12)
+
+    def arm_down(self):
+        print("Telling the robot to arm down")
+        self.robot.arm.calibrate()
+
+    def speak(self):
+        print("Telling the robot to chase")
+        self.robot.arm.calibrate()
+        ev3.Sound.speak("Object too large").wait()
+
+    def color_sensor(self):
+        print("Telling the robot to use the color sensor")
+        print(self.robot.color_sensor.get_color())
+        while self.robot.color_sensor.get_color() == 6:
+            self.robot.drive_system.start_moving()
+        self.robot.drive_system.stop_moving()
 
 
 main()

@@ -65,7 +65,7 @@ def move_item():
     robot.drive_system.start_moving()
     robot.color_sensor.wait_until_color_is(6)
     robot.drive_system.stop_moving()
-    #robot.arm.raise_arm_and_close_claw()
+    robot.arm.raise_arm_and_close_claw()
     robot.drive_system.spin_in_place_degrees(90)
     robot.drive_system.go_straight_inches(10)
     robot.arm.calibrate()

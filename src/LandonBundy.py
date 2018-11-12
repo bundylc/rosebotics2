@@ -41,13 +41,12 @@ def test_ellipse():
 
 
 def main2():
+    """ Constructs and runs a GUI for this program. """
     root = tkinter.Tk()
-
-    mqtt = com.MqttClient()
-    mqtt.connect_to_ev3()
-
-    setup_gui(root, mqtt)
-
+    mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_ev3()
+    setup_gui(root, mqtt_client)
+    set_remote_control_gui(root, mqtt_client)
     root.mainloop()
 
 
@@ -123,9 +122,9 @@ def move_item(distance_entry_box):
 
 
 def main():
-    move_item()
+    #move_item()
     #test_raise_arm()
-    #test_calibrate()
+    test_calibrate()
     #test_ellipse()
     #car()
 

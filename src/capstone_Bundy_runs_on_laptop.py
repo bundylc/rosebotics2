@@ -52,23 +52,16 @@ import mqtt_remote_method_calls as com
 def main():
     """ Constructs and runs a GUI for this program. """
     root = tkinter.Tk()
-
-    mqtt = com.MqttClient()
-    mqtt.connect_to_ev3()
-
-    setup_gui(root, mqtt)
-
+    mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_ev3()
+    #setup_gui(root, mqtt_client)
+    set_remote_control_gui(root, mqtt_client)
     root.mainloop()
-    # --------------------------------------------------------------------------
-    # TODsO: 5. Add code above that constructs a   com.MqttClient   that will
-    # TODOs:    be used to send commands to the robot.  Connect it to this pc.
-    # TODOs:    Test.  When OK, delete this TOsDO.
-    # --------------------------------------------------------------------------
 
 
-def setup_gui(root_window, mqtt):
+def setup_gui(root_window, mqtt_client):
     """ Constructs and sets up widgets on the given window. """
-    frame = ttk.Frame(root_window, padding=10)
+    frame = ttk.Frame(root_window, padding=20)
     frame.grid()
 
     speed_entry_box = ttk.Entry(frame)
@@ -78,43 +71,110 @@ def setup_gui(root_window, mqtt):
     go_forward_button.grid()
 
     go_forward_button['command'] = \
-        lambda: handle_go_forward(speed_entry_box, mqtt)
+        lambda: handle_go_forward(speed_entry_box, mqtt_client)
 
 
-def handle_go_forward(entry_box, mqtt):
-    speed = entry_box.get()
-    print("Send message with speed", speed)
-    mqtt.send_message('go_forward', [speed])
+def set_remote_control_gui(root_window, mqtt_client):
+    main_frame = ttk.Frame(root_window, padding=10)
+    main_frame.grid()
+
+    speed_entry_box = ttk.Entry(main_frame)
+    speed_entry_box.insert(0, "60")
+    go_forward_button = ttk.Button(main_frame, text="Go forward")
+    go_left_button = ttk.Button(main_frame, text="Go left")
+    go_right_button = ttk.Button(main_frame, text="Go right")
+    stop_button = ttk.Button(main_frame, text="Stop")
+    back_button = ttk.Button(main_frame, text="Go back")
+    exit_button = ttk.Button(main_frame, text="Exit")
+    arm_up_button = ttk.Button(main_frame, text="Arm up")
+    arm_down_button = ttk.Button(main_frame, text="Arm down")
+    speak_button = ttk.Button(main_frame, text="Speak")
+    color_sensor_button = ttk.Button(main_frame, text="Color Sensor")
+
+    speed_entry_box.grid(row=1, column=2)
+    go_forward_button.grid(row=3, column=2)
+    go_left_button.grid(row=4, column=1)
+    go_right_button.grid(row=4, column=3)
+    stop_button.grid(row=4, column=2)
+    back_button.grid(row=5, column=2)
+    exit_button.grid(row=6, column=2)
+    arm_up_button.grid(row=2, column=1)
+    arm_down_button.grid(row=2, column=3)
+    speak_button.grid(row=2, column=2)
+    color_sensor_button.grid(row=3, column=1)
+
+    go_forward_button['command'] = \
+        lambda: handle_go_forward(speed_entry_box, mqtt_client)
+    go_left_button['command'] = \
+        lambda: handle_go_left(speed_entry_box, mqtt_client)
+    go_right_button['command'] = \
+        lambda: handle_go_right(speed_entry_box, mqtt_client)
+    stop_button['command'] = \
+        lambda: handle_stop(mqtt_client)
+    back_button['command'] = \
+        lambda: handle_go_back(speed_entry_box, mqtt_client)
+    exit_button['command'] = lambda: exit()
+    arm_up_button['command'] = \
+        lambda: handle_arm_up(mqtt_client)
+    arm_down_button['command'] = \
+        lambda: handle_arm_down(mqtt_client)
+    speak_button['command'] = \
+        lambda: handle_speak(mqtt_client)
+    color_sensor_button['command'] = \
+        lambda: handle_color_sensor(mqtt_client)
+
+
+def handle_go_forward(entry_box, mqtt_client):
     """
     Tells the robot to go forward at the speed specified in the given entry box.
     """
-    # --------------------------------------------------------------------------
-    # TO2DO: 6. This function needs the entry box in which the user enters
-    # TODwO:    the speed at which the robot should move.  Make the 2 changes
-    # TODOw:    necessary for the entry_box constructed in  setup_gui
-    # TODOw:    to make its way to this function.  When done, delete this TwODO.
-    # --------------------------------------------------------------------------
+    speed_string = entry_box.get()
+    print('Sending the go_forward message with speed')
+    mqtt_client.send_message('go_forward', [speed_string])
 
-    # --------------------------------------------------------------------------
-    # wTODO: 7. For this function to tell the robot what to do, it needs
-    # TwODO:    the MQTT client constructed in main.  Make the 4 changes
-    # TOwDO:    necessary for that object to make its way to this function.
-    # TODwO:    When done, delete this TOaDO.
-    # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # wTODO: 8. Add the single line of code needed to get the string that is
-    # TwODO:    currently in the entry box.
-    # TOwDO:
-    # TODwO:    Then add the single line of code needed to "call" a method on the
-    # TODOw:    LISTENER that runs on the ROBOT, where that LISTENER is the
-    # wTODO:    "delegate" object that is constructed when the ROBOT's code
-    # TwODO:    runs on the ROBOT.  Send to the delegate the speed to use
-    # TOwDO:    plus a method name that you will implement in the DELEGATE's
-    # TODwO:    class in the module that runs on the ROBOT.
-    # TODOw:
-    # TODOw:    Test by using a PRINT statement.  When done, delete this TdODO.
-    # --------------------------------------------------------------------------
+def handle_go_left(entry_box, mqtt_client):
+    speed_string = entry_box.get()
+    print('Sending the go_left message with speed')
+    mqtt_client.send_message('go_left', [speed_string])
+
+
+def handle_go_right(entry_box, mqtt_client):
+    speed_string = entry_box.get()
+    print('Sending the go_right message with speed')
+    mqtt_client.send_message('go_right', [speed_string])
+
+
+def handle_stop(mqtt_client):
+    print('Sending the stop message')
+    mqtt_client.send_message('stop')
+
+
+def handle_go_back(entry_box, mqtt_client):
+    speed_string = entry_box.get()
+    print('Sending the go_back message with speed')
+    mqtt_client.send_message('go_back', [speed_string])
+
+
+def handle_arm_up(mqtt_client):
+    print('Sending the arm_up message')
+    mqtt_client.send_message('arm_up')
+
+
+def handle_arm_down(mqtt_client):
+    print('Sending the arm_down message')
+    mqtt_client.send_message('arm_down')
+
+
+def handle_speak(mqtt_client):
+    print('Sending the speak message')
+    mqtt_client.send_message('speak')
+
+
+def handle_color_sensor(mqtt_client):
+    print('Sending the color_sensor message')
+    mqtt_client.send_message('color_sensor')
 
 
 main()
+
