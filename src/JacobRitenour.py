@@ -39,7 +39,7 @@ def test_beacon_buttons():
             robot.drive_system.start_moving(50,50)
 
         if robot.beacon_button_sensor.is_bottom_red_button_pressed()==True:
-            ev3.Sound.speak('Hello, I am the Doctor')
+            ev3.Sound.speak('Hello')
 
         if robot.beacon_button_sensor.is_top_blue_button_pressed()==True:
             robot.drive_system.start_moving(-50,-50)
