@@ -69,7 +69,6 @@ def setup_gui(root_window, mqtt_client):
     """ Constructs and sets up widgets on the given window. """
     frame = ttk.Frame(root_window, padding=10)
     frame.grid()
-
     speed_entry_box = ttk.Entry(frame)
     left_autonomous_button = ttk.Button(frame, text="Left Autonomous")
     right_autonomous_button = ttk.Button(frame, text='Right Autonomous')

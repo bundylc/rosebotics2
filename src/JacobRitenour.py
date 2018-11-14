@@ -27,10 +27,9 @@ def test_color_sensor():
 def test_proximity_sensor():
     """Test for the robot's proximity sensor"""
     robot = rb.Snatch3rRobot()
-    print(robot.proximity_sensor.get_distance_to_nearest_object_in_inches())
-
+    print(1)
     while (True):
-        if (robot.proximity_sensor.get_distance_to_nearest_object_in_inches() < 5):
+        if (robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<=1):
             ev3.Sound.beep().wait()
 
 

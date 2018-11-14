@@ -76,40 +76,49 @@ class RemoteControlEtc(object):
         print('telling the robot to start moving at', speed_string)
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed,speed)
-        while True:
-            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<3:
-                self.move_to_left_switch()
-                break
+        self.move_to_left_switch()
 
     def right_autonomous(self, speed_string):
         '''makes the robot go forward at a given speed'''
         print('telling the robot to start moving at', speed_string)
         speed = int(speed_string)
-        self.robot.drive_system.start_moving(speed,speed)
-        while True:
-            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<3:
-                self.move_to_right_switch()
-                break
+        self.robot.drive_system.start_moving(speed, speed)
+        self.move_to_right_switch()
+
 
     def move_to_left_switch(self):
-        self.robot.drive_system.stop_moving()
-        self.robot.arm.raise_arm_and_close_claw()
-        self.robot.drive_system.spin_in_place_degrees(45)
-        self.robot.drive_system.go_straight_inches(30)
-        self.robot.arm.motor.reset_degrees_spun()
-        self.robot.arm.motor.start_spinning(-100)
         while True:
-            if self.robot.arm.motor.get_degrees_spun() <= (-14.2 * 360):
-                print('done')
-                self.robot.arm.motor.stop_spinning()
+            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<=4:
+                self.robot.drive_system.go_straight_inches(20)
+                self.robot.arm.raise_arm_and_close_claw()
+                self.robot.drive_system.start_moving(-50,50)
+                time.sleep(1)
+                self.robot.drive_system.stop_moving()
+                self.robot.drive_system.go_straight_inches(42)
                 self.robot.arm.motor.reset_degrees_spun()
+                self.robot.arm.motor.start_spinning(-100)
+                while True:
+                    if self.robot.arm.motor.get_degrees_spun() <= (-14.2 * 360):
+                        self.robot.arm.motor.stop_spinning()
+                        self.robot.arm.motor.reset_degrees_spun()
+                        break
                 break
 
     def move_to_right_switch(self):
-        self.robot.drive_system.stop_moving()
-        self.robot.arm.raise_arm_and_close_claw()
-        self.robot.drive_system.spin_in_place_degrees(-45)
-        self.robot.drive_system.go_straight_inches(12)
-        self.robot.arm.motor.reset_degrees_spun()
-        self.robot.arm.motor.stop_spinning()
+        while True:
+            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<=4:
+                self.robot.drive_system.go_straight_inches(20)
+                self.robot.arm.raise_arm_and_close_claw()
+                self.robot.drive_system.start_moving(50,-50)
+                time.sleep(1)
+                self.robot.drive_system.stop_moving()
+                self.robot.drive_system.go_straight_inches(42)
+                self.robot.arm.motor.reset_degrees_spun()
+                self.robot.arm.motor.start_spinning(-100)
+                while True:
+                    if self.robot.arm.motor.get_degrees_spun() <= (-14.2 * 360):
+                        self.robot.arm.motor.stop_spinning()
+                        self.robot.arm.motor.reset_degrees_spun()
+                        break
+                break
 main()
