@@ -71,10 +71,39 @@ class RemoteControlEtc(object):
         '''
         self.robot = robot
 
-    def go_forward(self, speed_string):
+    def left_autonomous(self, speed_string):
         '''makes the robot go forward at a given speed'''
         print('telling the robot to start moving at', speed_string)
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed,speed)
+        while True:
+            if self.robot.touch_sensor.is_pressed()==True:
+                self.move_to_left_switch()
+                break
 
+    def right_autonomous(self, speed_string):
+        '''makes the robot go forward at a given speed'''
+        print('telling the robot to start moving at', speed_string)
+        speed = int(speed_string)
+        self.robot.drive_system.start_moving(speed,speed)
+        while True:
+            if self.robot.touch_sensor.is_pressed()==True:
+                self.move_to_right_switch()
+                break
+
+    def move_to_left_switch(self):
+        self.robot.drive_system.stop_moving()
+        self.robot.arm.raise_arm_and_close_claw()
+        self.robot.drive_system.spin_in_place_degrees(45)
+        self.robot.drive_system.go_straight_inches(12)
+        self.robot.arm.motor.reset_degrees_spun()
+        self.robot.arm.motor.stop_spinning()
+
+    def move_to_right_switch(self):
+        self.robot.drive_system.stop_moving()
+        self.robot.arm.raise_arm_and_close_claw()
+        self.robot.drive_system.spin_in_place_degrees(-45)
+        self.robot.drive_system.go_straight_inches(12)
+        self.robot.arm.motor.reset_degrees_spun()
+        self.robot.arm.motor.stop_spinning()
 main()

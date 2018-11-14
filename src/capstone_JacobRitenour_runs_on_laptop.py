@@ -71,16 +71,17 @@ def setup_gui(root_window, mqtt_client):
     frame.grid()
 
     speed_entry_box = ttk.Entry(frame)
-    go_forward_button = ttk.Button(frame, text="Go forward")
-
+    left_autonomous_button = ttk.Button(frame, text="Left Autonomous")
+    right_autonomous_button = ttk.Button(frame, text='Right Autonomous')
     speed_entry_box.grid()
-    go_forward_button.grid()
+    left_autonomous_button.grid()
+    right_autonomous_button.grid()
+    left_autonomous_button['command'] = \
+        lambda: left_autonomous(speed_entry_box, mqtt_client)
+    right_autonomous_button['command'] = \
+        lambda: right_autonomous(speed_entry_box, mqtt_client)
 
-    go_forward_button['command'] = \
-        lambda: handle_go_forward(speed_entry_box, mqtt_client)
-
-
-def handle_go_forward(entry_box, mqtt_client):
+def left_autonomous(entry_box, mqtt_client):
     """
     Tells the robot to go forward at the speed specified in the given entry box.
     """
@@ -91,8 +92,42 @@ def handle_go_forward(entry_box, mqtt_client):
     # TODO:    to make its way to this function.  When done, delete this TODO.
     # --------------------------------------------------------------------------
     speed_string = entry_box.get()
-    print('sending the go forward message with speed', speed_string)
-    mqtt_client.send_message('go_forward',[speed_string])
+    print('sending the speed', speed_string)
+    mqtt_client.send_message('left_autonomous',[speed_string])
+    # --------------------------------------------------------------------------
+    # TODO: 7. For this function to tell the robot what to do, it needs
+    # TODO:    the MQTT client constructed in main.  Make the 4 changes
+    # TODO:    necessary for that object to make its way to this function.
+    # TODO:    When done, delete this TODO.
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # TODO: 8. Add the single line of code needed to get the string that is
+    # TODO:    currently in the entry box.
+    # TODO:
+    # TODO:    Then add the single line of code needed to "call" a method on the
+    # TODO:    LISTENER that runs on the ROBOT, where that LISTENER is the
+    # TODO:    "delegate" object that is constructed when the ROBOT's code
+    # TODO:    runs on the ROBOT.  Send to the delegate the speed to use
+    # TODO:    plus a method name that you will implement in the DELEGATE's
+    # TODO:    class in the module that runs on the ROBOT.
+    # TODO:
+    # TODO:    Test by using a PRINT statement.  When done, delete this TODO.
+    # --------------------------------------------------------------------------
+
+def right_autonomous(entry_box, mqtt_client):
+    """
+    Tells the robot to go forward at the speed specified in the given entry box.
+    """
+    # --------------------------------------------------------------------------
+    # TODO: 6. This function needs the entry box in which the user enters
+    # TODO:    the speed at which the robot should move.  Make the 2 changes
+    # TODO:    necessary for the entry_box constructed in  setup_gui
+    # TODO:    to make its way to this function.  When done, delete this TODO.
+    # --------------------------------------------------------------------------
+    speed_string = entry_box.get()
+    print('sending the speed', speed_string)
+    mqtt_client.send_message('left_autonomous',[speed_string])
     # --------------------------------------------------------------------------
     # TODO: 7. For this function to tell the robot what to do, it needs
     # TODO:    the MQTT client constructed in main.  Make the 4 changes
