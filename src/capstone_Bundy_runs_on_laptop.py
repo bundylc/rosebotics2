@@ -73,7 +73,7 @@ def setup_gui(root_window, mqtt_client):
         lambda: handle_forward(speed_entry_box, mqtt_client)
 
 
-def set_remote_control_gui(root_window, mqtt_client):
+def set_remote_control_gui(root_window, mqtt_client): 
     main_frame = ttk.Frame(root_window, padding=10)
     main_frame.grid()
 
