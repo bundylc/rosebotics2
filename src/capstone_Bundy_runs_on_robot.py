@@ -74,52 +74,51 @@ class RemoteControlEtc(object):
         """
         self.robot = robot
 
-    def go_forward(self, speed_string):
-        """makes the robot go forward at the given speed """
-        print("Telling the robot to go forward", speed_string)
+    def forward(self, speed_string):
+        print("Going forward", speed_string)
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed, speed)
 
-    def go_left(self, speed_string):
+    def left(self, speed_string):
         self.robot.drive_system.right_wheel.reset_degrees_spun()
         self.robot.drive_system.left_wheel.reset_degrees_spun()
-        print("Telling the robot to go left", speed_string)
+        print("Going left", speed_string)
         speed = int(speed_string)
         self.robot.drive_system.turn_degrees(90, speed)
 
-    def go_right(self, speed_string):
+    def right(self, speed_string):
         self.robot.drive_system.right_wheel.reset_degrees_spun()
         self.robot.drive_system.left_wheel.reset_degrees_spun()
-        print("Telling the robot to go right", speed_string)
+        print("Going right", speed_string)
         speed = int(speed_string)
         self.robot.drive_system.turn_degrees(-90, speed)
 
     def stop(self):
-        print("Telling the robot to stop")
+        print("Stopping")
         self.robot.drive_system.stop_moving()
         self.robot.drive_system.right_wheel.reset_degrees_spun()
         self.robot.drive_system.left_wheel.reset_degrees_spun()
 
-    def go_back(self, speed_string):
-        print("Telling the robot to go back", speed_string)
+    def back(self, speed_string):
+        print("Going backwards", speed_string)
         speed = int(speed_string)
         self.robot.drive_system.start_moving(-speed, -speed)
 
-    def arm_up(self):
-        print("Telling the robot to arm up")
+    def raise_arm(self):
+        print("Raising arm")
         self.robot.arm.move_arm_to_position(12)
 
-    def arm_down(self):
-        print("Telling the robot to arm down")
+    def lower_arm(self):
+        print("Lowering arm")
         self.robot.arm.calibrate()
 
     def speak(self):
-        print("Telling the robot to chase")
+        print("Speaking")
         self.robot.arm.calibrate()
         ev3.Sound.speak("Object too large").wait()
 
     def color_sensor(self):
-        print("Telling the robot to use the color sensor")
+        print("Color detected")
         print(self.robot.color_sensor.get_color())
         while self.robot.color_sensor.get_color() == 6:
             self.robot.drive_system.start_moving()

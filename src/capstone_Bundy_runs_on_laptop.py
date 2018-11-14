@@ -54,7 +54,6 @@ def main():
     root = tkinter.Tk()
     mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
-    #setup_gui(root, mqtt_client)
     set_remote_control_gui(root, mqtt_client)
     root.mainloop()
 
@@ -71,7 +70,7 @@ def setup_gui(root_window, mqtt_client):
     go_forward_button.grid()
 
     go_forward_button['command'] = \
-        lambda: handle_go_forward(speed_entry_box, mqtt_client)
+        lambda: handle_forward(speed_entry_box, mqtt_client)
 
 
 def set_remote_control_gui(root_window, mqtt_client):
@@ -80,69 +79,69 @@ def set_remote_control_gui(root_window, mqtt_client):
 
     speed_entry_box = ttk.Entry(main_frame)
     speed_entry_box.insert(0, "60")
-    go_forward_button = ttk.Button(main_frame, text="Go forward")
-    go_left_button = ttk.Button(main_frame, text="Go left")
-    go_right_button = ttk.Button(main_frame, text="Go right")
+    forward_button = ttk.Button(main_frame, text="Go forward")
+    left_button = ttk.Button(main_frame, text="Go left")
+    right_button = ttk.Button(main_frame, text="Go right")
     stop_button = ttk.Button(main_frame, text="Stop")
     back_button = ttk.Button(main_frame, text="Go back")
     exit_button = ttk.Button(main_frame, text="Exit")
-    arm_up_button = ttk.Button(main_frame, text="Arm up")
-    arm_down_button = ttk.Button(main_frame, text="Arm down")
+    raise_arm_button = ttk.Button(main_frame, text="Raise Arm")
+    lower_arm_button = ttk.Button(main_frame, text="Lower Arm")
     speak_button = ttk.Button(main_frame, text="Speak")
     color_sensor_button = ttk.Button(main_frame, text="Color Sensor")
 
     speed_entry_box.grid(row=1, column=2)
-    go_forward_button.grid(row=3, column=2)
-    go_left_button.grid(row=4, column=1)
-    go_right_button.grid(row=4, column=3)
-    stop_button.grid(row=4, column=2)
-    back_button.grid(row=5, column=2)
-    exit_button.grid(row=6, column=2)
-    arm_up_button.grid(row=2, column=1)
-    arm_down_button.grid(row=2, column=3)
-    speak_button.grid(row=2, column=2)
-    color_sensor_button.grid(row=3, column=1)
+    forward_button.grid(row=2, column=2)
+    left_button.grid(row=2, column=1)
+    right_button.grid(row=2, column=3)
+    stop_button.grid(row=3, column=1)
+    back_button.grid(row=3, column=2)
+    exit_button.grid(row=3, column=3)
+    raise_arm_button.grid(row=4, column=1)
+    lower_arm_button.grid(row=4, column=3)
+    speak_button.grid(row=4, column=2)
+    color_sensor_button.grid(row=5, column=1)
 
-    go_forward_button['command'] = \
-        lambda: handle_go_forward(speed_entry_box, mqtt_client)
-    go_left_button['command'] = \
-        lambda: handle_go_left(speed_entry_box, mqtt_client)
-    go_right_button['command'] = \
-        lambda: handle_go_right(speed_entry_box, mqtt_client)
+    forward_button['command'] = \
+        lambda: handle_forward(speed_entry_box, mqtt_client)
+    left_button['command'] = \
+        lambda: handle_left(speed_entry_box, mqtt_client)
+    right_button['command'] = \
+        lambda: handle_right(speed_entry_box, mqtt_client)
     stop_button['command'] = \
         lambda: handle_stop(mqtt_client)
     back_button['command'] = \
-        lambda: handle_go_back(speed_entry_box, mqtt_client)
+        lambda: handle_back(speed_entry_box, mqtt_client)
     exit_button['command'] = lambda: exit()
-    arm_up_button['command'] = \
-        lambda: handle_arm_up(mqtt_client)
-    arm_down_button['command'] = \
-        lambda: handle_arm_down(mqtt_client)
+    raise_arm_button['command'] = \
+        lambda: handle_raise_arm(mqtt_client)
+    lower_arm_button['command'] = \
+        lambda: handle_lower_arm(mqtt_client)
     speak_button['command'] = \
         lambda: handle_speak(mqtt_client)
     color_sensor_button['command'] = \
         lambda: handle_color_sensor(mqtt_client)
 
 
-def handle_go_forward(entry_box, mqtt_client):
+def handle_forward(entry_box, mqtt_client):
     """
     Tells the robot to go forward at the speed specified in the given entry box.
     """
     speed_string = entry_box.get()
     print('Sending the go_forward message with speed')
-    mqtt_client.send_message('go_forward', [speed_string])
+    mqtt_client.send_message('forward', [speed_string])
 
 
-def handle_go_left(entry_box, mqtt_client):
+def handle_left(entry_box, mqtt_client):
     speed_string = entry_box.get()
     print('Sending the go_left message with speed')
-    mqtt_client.send_message('go_left', [speed_string])
+    mqtt_client.send_message('left', [speed_string])
 
 
-def handle_go_right(entry_box, mqtt_client):
+def handle_right(entry_box, mqtt_client):
     speed_string = entry_box.get()
     print('Sending the go_right message with speed')
-    mqtt_client.send_message('go_right', [speed_string])
+    mqtt_client.send_message('right', [speed_string])
 
 
 def handle_stop(mqtt_client):
@@ -150,20 +149,20 @@ def handle_stop(mqtt_client):
     mqtt_client.send_message('stop')
 
 
-def handle_go_back(entry_box, mqtt_client):
+def handle_back(entry_box, mqtt_client):
     speed_string = entry_box.get()
     print('Sending the go_back message with speed')
-    mqtt_client.send_message('go_back', [speed_string])
+    mqtt_client.send_message('back', [speed_string])
 
 
-def handle_arm_up(mqtt_client):
+def handle_raise_arm(mqtt_client):
     print('Sending the arm_up message')
-    mqtt_client.send_message('arm_up')
+    mqtt_client.send_message('raise_arm')
 
 
-def handle_arm_down(mqtt_client):
+def handle_lower_arm(mqtt_client):
     print('Sending the arm_down message')
-    mqtt_client.send_message('arm_down')
+    mqtt_client.send_message('lower_arm')
 
 
 def handle_speak(mqtt_client):
