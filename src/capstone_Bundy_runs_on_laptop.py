@@ -12,36 +12,36 @@ Authors:  David Mutchler, his colleagues, and Landon Bundy.
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# TODO: 2. With your instructor, discuss the "big picture" of laptop-robot
-# TODO:    communication:
-# TODO:      - One program runs on your LAPTOP.  It displays a GUI.  When the
-# TODO:        user presses a button intended to make something happen on the
-# TODO:        ROBOT, the LAPTOP program sends a message to its MQTT client
-# TODO:        indicating what it wants the ROBOT to do, and the MQTT client
-# TODO:        SENDS that message TO a program running on the ROBOT.
-# TODO:
-# TODO:      - Another program runs on the ROBOT. It stays in a loop, responding
-# TODO:        to events on the ROBOT (like pressing buttons on the IR Beacon).
-# TODO:        It also, in the background, listens for messages TO the ROBOT
-# TODO:        FROM the program running on the LAPTOP.  When it hears such a
-# TODO:        message, it calls the method in the DELAGATE object's class
-# TODO:        that the message indicates, sending arguments per the message.
-# TODO:
-# TODO:  Once you understand the "big picture", delete this TODO (if you wish).
+# aTODO: 2. With your instructor, discuss the "big picture" of laptop-robot
+# TOaDO:    communication:
+# TODOa:      - One program runs on your LAPTOP.  It displays a GUI.  When the
+# TODOa:        user presses a button intended to make something happen on the
+# TODOa:        ROBOT, the LAPTOP program sends a message to its MQTT client
+# TODOa:        indicating what it wants the ROBOT to do, and the MQTT client
+# TODOa:        SENDS that message TO a program running on the ROBOT.
+# TODOa:
+# TODOa:      - Another program runs on the ROBOT. It stays in a loop, responding
+# TODOa:        to events on the ROBOT (like pressing buttons on the IR Beacon).
+# TODOa:        It also, in the background, listens for messages TO the ROBOT
+# TODOa:        FROM the program running on the LAPTOP.  When it hears such a
+# TODOa:        message, it calls the method in the DELAGATE object's class
+# TODOa:        that the message indicates, sending arguments per the message.
+# TODOa:
+# TODOa:  Once you understand the "big picture", delete this TaODO (if you wish).
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# TODO: 3. One team member: change the following in mqtt_remote_method_calls.py:
-#                LEGO_NUMBER = 99
-# TODO:    to use YOUR robot's number instead of 99.
-# TODO:    Commit and push the change, then other team members Update Project.
-# TODO:    Then delete this TODO.
+# aTODO: 3. One team member: change the following in mqtt_remote_method_calls.py:
+#  a              LEGO_NUMBER = 99
+# TOaDO:    to use YOUR robot's number instead of 99.
+# TODaO:    Commit and push the change, then other team members Update Project.
+# TODOa:    Then delete this TOaDO.
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# TODO: 4. Run this module.
-# TODO:    Study its code until you understand how the GUI is set up.
-# TODO:    Then delete this TODO.
+# TaODO: 4. Run this module.
+# TOaDO:    Study its code until you understand how the GUI is set up.
+# TODaO:    Then delete this TOaDO.
 # ------------------------------------------------------------------------------
 
 import tkinter

@@ -10,7 +10,7 @@ It uses MQTT to RECEIVE information from a program running on the LAPTOP.
 Authors:  David Mutchler, his colleagues, and Landon Bundy.
 """
 # ------------------------------------------------------------------------------
-# TODsO: 1. PUT YOUR NAME IN THE ABOVE LINE.  Then delete this TODO.
+# TODsO: 1. PUT YOUR NAME IN THE ABOVE LINE.  Then delete this TOaDO.
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
