@@ -127,7 +127,7 @@ def right_autonomous(entry_box, mqtt_client):
     # --------------------------------------------------------------------------
     speed_string = entry_box.get()
     print('sending the speed', speed_string)
-    mqtt_client.send_message('left_autonomous',[speed_string])
+    mqtt_client.send_message('right_autonomous',[speed_string])
     # --------------------------------------------------------------------------
     # TODO: 7. For this function to tell the robot what to do, it needs
     # TODO:    the MQTT client constructed in main.  Make the 4 changes

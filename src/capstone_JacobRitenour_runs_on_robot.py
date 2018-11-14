@@ -77,7 +77,7 @@ class RemoteControlEtc(object):
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed,speed)
         while True:
-            if self.robot.touch_sensor.is_pressed()==True:
+            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<8:
                 self.move_to_left_switch()
                 break
 
@@ -87,7 +87,7 @@ class RemoteControlEtc(object):
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed,speed)
         while True:
-            if self.robot.touch_sensor.is_pressed()==True:
+            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<8:
                 self.move_to_right_switch()
                 break
 
