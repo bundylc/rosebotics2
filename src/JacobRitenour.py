@@ -28,11 +28,11 @@ def test_proximity_sensor():
     """Test for the robot's proximity sensor"""
     robot = rb.Snatch3rRobot()
     print(robot.proximity_sensor.get_distance_to_nearest_object_in_inches())
-    """
+
     while (True):
-        if (robot.proximity_sensor.get_distance_to_nearest_object_in_inches() < 15):
+        if (robot.proximity_sensor.get_distance_to_nearest_object_in_inches() < 5):
             ev3.Sound.beep().wait()
-    """
+
 
 def test_beacon_buttons():
     """Test for the robot responding to the beacon buttons"""

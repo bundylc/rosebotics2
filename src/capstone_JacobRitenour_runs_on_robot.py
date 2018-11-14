@@ -77,7 +77,7 @@ class RemoteControlEtc(object):
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed,speed)
         while True:
-            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<8:
+            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<3:
                 self.move_to_left_switch()
                 break
 
@@ -87,7 +87,7 @@ class RemoteControlEtc(object):
         speed = int(speed_string)
         self.robot.drive_system.start_moving(speed,speed)
         while True:
-            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<8:
+            if self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()<3:
                 self.move_to_right_switch()
                 break
 
@@ -95,9 +95,15 @@ class RemoteControlEtc(object):
         self.robot.drive_system.stop_moving()
         self.robot.arm.raise_arm_and_close_claw()
         self.robot.drive_system.spin_in_place_degrees(45)
-        self.robot.drive_system.go_straight_inches(12)
+        self.robot.drive_system.go_straight_inches(30)
         self.robot.arm.motor.reset_degrees_spun()
-        self.robot.arm.motor.stop_spinning()
+        self.robot.arm.motor.start_spinning(-100)
+        while True:
+            if self.robot.arm.motor.get_degrees_spun() <= (-14.2 * 360):
+                print('done')
+                self.robot.arm.motor.stop_spinning()
+                self.robot.arm.motor.reset_degrees_spun()
+                break
 
     def move_to_right_switch(self):
         self.robot.drive_system.stop_moving()
